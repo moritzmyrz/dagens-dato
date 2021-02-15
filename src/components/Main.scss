@@ -1,0 +1,15 @@
+@import "../Style/_variables.scss";
+
+.main-main {
+  background: $bg-sec;
+  border-radius: 15px;
+
+  width: 260px;
+  padding: 15px;
+}
+
+#title {
+  color: $txt;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}

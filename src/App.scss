@@ -1,0 +1,20 @@
+@import "./Style/variables";
+
+#app-main,
+body {
+  margin: 0;
+  background: $bg-pri;
+
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+#app-main,
+#root {
+  margin: 0 auto;
+}
+
+#root {
+  margin-top: 35vh;
+}
