@@ -1,4 +1,4 @@
-function getWeekNumber(d) {
+function GetWeekNum(d) {
   // Copy date so don't modify original
   d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   // Set to nearest Thursday: current date + 4 - current day number
@@ -12,4 +12,4 @@ function getWeekNumber(d) {
   return [weekNo];
 }
 
-module.exports = { getWeekNumber };
+module.exports = { GetWeekNum };

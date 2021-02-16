@@ -1,11 +1,7 @@
 import Title from "./components/Title";
 import Main from "./components/Main";
 
-const Timer = () => {
-  return new Date();
-};
-
-const Dato = Timer();
+import { Dato } from "./functions/Dato";
 
 const App = () => {
   return (
