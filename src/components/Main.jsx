@@ -1,8 +1,6 @@
 import "./Main.scss";
 import { GetMonth } from "../functions/GetMonth";
 import { GetWeekNum } from "../functions/GetWeekNum";
-import { Timer } from "../functions/Timer";
-import { Dato } from "../functions/Dato";
 
 import Clock from "react-live-clock";
 
