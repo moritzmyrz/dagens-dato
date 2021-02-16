@@ -1,5 +1,4 @@
 import "./Main.scss";
-import { Helmet } from "react-helmet";
 import { getMonth } from "../functions/GetMonth";
 import { getWeekNumber } from "../functions/GetWeekNum";
 
