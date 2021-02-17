@@ -1,0 +1,29 @@
+@import "./variables.scss";
+
+.main-main {
+  background: $bg-sec;
+  border-radius: 15px;
+
+  padding: 15px;
+}
+
+#title {
+  color: $txt;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+#klokke {
+  font-size: 52px;
+}
+#dato {
+  font-size: 40px;
+}
+
+#uke {
+  font-size: 32px;
+}

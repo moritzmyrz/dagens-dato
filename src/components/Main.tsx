@@ -1,6 +1,6 @@
 import React from "react";
 import Clock from "react-live-clock";
-import "style/Main.scss";
+import "style/main.scss";
 import { GetMonth } from "../functions/GetMonth";
 import { GetWeekNum } from "../functions/GetWeekNum";
 
