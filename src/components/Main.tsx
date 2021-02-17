@@ -1,8 +1,8 @@
-import "../style/Main.scss";
+import React from "react";
+import Clock from "react-live-clock";
+import "style/Main.scss";
 import { GetMonth } from "../functions/GetMonth";
 import { GetWeekNum } from "../functions/GetWeekNum";
-import Clock from "react-live-clock";
-import React from "react";
 
 type AppProps = {
   time: Date;

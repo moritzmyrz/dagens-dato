@@ -1,8 +1,8 @@
-import "../style/App.scss";
-import Title from "./Title";
-import Main from "./Main";
 import * as React from "react";
+import "style/App.scss";
 import { Dato } from "../functions/Dato";
+import Main from "./Main";
+import Title from "./Title";
 
 const App: React.FC = () => {
   return (
