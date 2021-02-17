@@ -1,10 +1,13 @@
-import "./Main.scss";
+import "../style/Main.scss";
 import { GetMonth } from "../functions/GetMonth";
 import { GetWeekNum } from "../functions/GetWeekNum";
-
 import Clock from "react-live-clock";
+import React from "react";
 
-const Main = (props) => {
+type AppProps = {
+  time: Date;
+};
+const Main: React.FC<AppProps> = ({ time }: AppProps) => {
   return (
     <div className="main-main">
       <div id="title">
@@ -12,10 +15,10 @@ const Main = (props) => {
           <Clock format={"HH:mm:ss"} ticking={true} timezone={"Europe/Oslo"} />
         </h1>
         <h1 id="dato">
-          {`${props.time.getDate()} ${GetMonth(props.time.getMonth())},
-          ${props.time.getFullYear()}`}
+          {`${time.getDate()} ${GetMonth(time.getMonth())},
+          ${time.getFullYear()}`}
         </h1>
-        <h1 id="uke">Uke {GetWeekNum(props.time)}</h1>
+        <h1 id="uke">Uke {GetWeekNum(time)}</h1>
       </div>
     </div>
   );
