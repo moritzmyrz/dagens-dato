@@ -4,13 +4,17 @@
   background: $bg-sec;
   border-radius: 15px;
 
+  width: 680px;
+  height: 270px;
   padding: 15px;
 }
 
 #title {
   color: $txt;
   text-align: center;
-  font-family: "Roboto", sans-serif;
+  font-family: "Open Sans", sans-serif;
+
+  margin: 3em 0;
 
   h1 {
     margin: 0;
@@ -19,6 +23,7 @@
 
 #klokke {
   font-size: 52px;
+  font-family: "Montserrat", sans-serif;
 }
 #dato {
   font-size: 40px;

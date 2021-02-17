@@ -1,8 +1,8 @@
+import { GetMonth } from "functions/GetMonth";
+import { GetWeekNum } from "functions/GetWeekNum";
 import React from "react";
 import Clock from "react-live-clock";
 import "style/Main.scss";
-import { GetMonth } from "../functions/GetMonth";
-import { GetWeekNum } from "../functions/GetWeekNum";
 
 type AppProps = {
   time: Date;
@@ -15,7 +15,7 @@ const Main: React.FC<AppProps> = ({ time }: AppProps) => {
           <Clock format={"HH:mm:ss"} ticking={true} timezone={"Europe/Oslo"} />
         </h1>
         <h1 id="dato">
-          {`${time.getDate()} ${GetMonth(time.getMonth())},
+          {`${time.getDate()}. ${GetMonth(time.getMonth())}
           ${time.getFullYear()}`}
         </h1>
         <h1 id="uke">Uke {GetWeekNum(time)}</h1>
