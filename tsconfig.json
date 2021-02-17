@@ -22,12 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": false,
 
-    "baseUrl": "src",
-    "paths": {
-      "@components/*": ["./components/*"],
-      "@functions/*": ["./functions/*"],
-      "@style/*": ["./style/*"]
-    }
+    "baseUrl": "src"
   },
   "include": ["src/**/*", "src"],
   "exclude": ["node_modules", "build"]
