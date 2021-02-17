@@ -1,3 +1,4 @@
+import "../style/App.scss";
 import Title from "./Title";
 import Main from "./Main";
 import * as React from "react";
