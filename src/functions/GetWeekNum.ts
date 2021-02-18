@@ -1,4 +1,6 @@
+// eslint-disable-next-line
 const GetWeekNum = function (date: Date) {
+  // eslint-disable-next-line
   const target: any = new Date(date.valueOf());
   const dayNumber = (date.getUTCDay() + 6) % 7;
 

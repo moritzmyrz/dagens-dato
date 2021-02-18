@@ -1,12 +1,13 @@
 @import "./variables.scss";
+@import "./mixins.scss";
 
-.main-main {
-  background: $bg-sec;
-  border-radius: 15px;
+#container {
+  margin: 0;
+  padding: 0;
+}
 
-  width: 680px;
-  height: 270px;
-  padding: 15px;
+.main-top {
+  @include card;
 }
 
 #title {
