@@ -1,4 +1,4 @@
-import { Dato } from "functions/Dato";
+import { Dato } from "functions/Date";
 import * as React from "react";
 import "style/App.scss";
 import Main from "./Main";

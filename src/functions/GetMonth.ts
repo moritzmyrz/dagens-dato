@@ -1,5 +1,5 @@
-function GetMonth(month) {
-  var months = [
+function GetMonth(month: number): string {
+  const months: string[] = [
     "Januar",
     "Februar",
     "Mars",
@@ -17,4 +17,4 @@ function GetMonth(month) {
   return months[month];
 }
 
-module.exports = { GetMonth };
+export { GetMonth };
