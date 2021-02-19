@@ -1,3 +1,4 @@
+import { Dato } from "functions/Date";
 import { GetMonth } from "functions/GetMonth";
 import { GetWeekNum } from "functions/GetWeekNum";
 import React from "react";
@@ -27,7 +28,7 @@ const Main: React.FC<AppProps> = ({ time }: AppProps) => {
           <h1 id="uke">Uke {GetWeekNum(time)}</h1>
         </div>
       </div>
-      <Events />
+      <Events time={Dato} />
     </div>
   );
 };

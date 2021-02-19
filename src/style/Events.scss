@@ -17,14 +17,16 @@
   display: grid;
   grid-template-columns: 1fr 4fr;
   color: $txt;
-
   h1 {
-    text-align: center;
     font-size: 26px;
   }
+  h1:first-child {
+    margin-left: 1em;
+  }
   h2 {
-    text-align: center;
     margin: auto 0;
+    font-size: 20px;
+    margin-left: 1em;
   }
   p {
     margin: 1em 0;
