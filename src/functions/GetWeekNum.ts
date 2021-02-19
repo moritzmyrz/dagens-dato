@@ -1,5 +1,5 @@
-const GetWeekNum = function (date: Date) {
-  const target: any = new Date(date.valueOf());
+export const GetWeekNum = function (date: Date): number {
+  const target: Date = new Date(date.valueOf());
   const dayNumber = (date.getUTCDay() + 6) % 7;
 
   target.setUTCDate(target.getUTCDate() - dayNumber + 3);
@@ -10,7 +10,7 @@ const GetWeekNum = function (date: Date) {
     target.setUTCMonth(0, 1 + ((4 - target.getUTCDay() + 7) % 7));
   }
 
-  return Math.ceil((firstThursday - target) / (7 * 24 * 3600 * 1000)) + 1;
+  return (
+    Math.ceil((firstThursday - target.getTime()) / (7 * 24 * 3600 * 1000)) + 1
+  );
 };
-
-export { GetWeekNum };

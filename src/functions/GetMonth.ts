@@ -1,4 +1,4 @@
-function GetMonth(month: number): string {
+export function GetMonth(month: number): string {
   const months: string[] = [
     "Januar",
     "Februar",
@@ -16,5 +16,3 @@ function GetMonth(month: number): string {
 
   return months[month];
 }
-
-export { GetMonth };
