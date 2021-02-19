@@ -1,12 +1,5 @@
-<<<<<<< HEAD
 export const GetWeekNum = function (date: Date): number {
   const target: Date = new Date(date.valueOf());
-=======
-// eslint-disable-next-line
-const GetWeekNum = function (date: Date) {
-  // eslint-disable-next-line
-  const target: any = new Date(date.valueOf());
->>>>>>> f3278e37ab08d38e99dc0fba5ce87742ba57283f
   const dayNumber = (date.getUTCDay() + 6) % 7;
 
   target.setUTCDate(target.getUTCDate() - dayNumber + 3);
