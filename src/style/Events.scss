@@ -1,0 +1,17 @@
+@import "./variables";
+@import "./mixins";
+
+.events-main {
+  @include card;
+  font-family: "Open Sans", sans-serif;
+  height: fit-content;
+
+  h1 {
+    text-align: center;
+    color: $txt;
+    margin: 0;
+  }
+}
+
+#event-contents {
+}
