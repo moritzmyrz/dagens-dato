@@ -31,7 +31,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
   let i = 0;
 
   events.forEach((str) => {
-    items.push(i % 2 == 0 ? <h2>{str}</h2> : <p>{str}</p>);
+    items.push(i % 2 == 0 ? <h2 key={str}>{str}</h2> : <p key={str}>{str}</p>);
     i++;
   });
 
