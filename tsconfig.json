@@ -16,12 +16,12 @@
 		"jsx": "react-jsx",
 		"sourceMap": true,
 		"declaration": true,
-		"noUnusedLocals": false,
-		"noUnusedParameters": true,
 		"incremental": true,
 		"noFallthroughCasesInSwitch": true,
 		"baseUrl": "src",
-		"noImplicitAny": false
+		"noImplicitAny": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false
 	},
 	"include": ["src"],
 	"exclude": ["node_modules", "build"]
