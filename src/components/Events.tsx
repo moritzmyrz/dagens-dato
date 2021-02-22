@@ -71,6 +71,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		);
 		i++;
 	});
+	// eslint-disable-next-line
 	const deathData: any = [];
 	let j = 0;
 	events.deathData.forEach((str) => {
@@ -79,6 +80,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		);
 		j++;
 	});
+	// eslint-disable-next-line
 	const birthData: any = [];
 	let k = 0;
 	events.birthData.forEach((str) => {
