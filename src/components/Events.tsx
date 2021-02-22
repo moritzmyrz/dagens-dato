@@ -2,12 +2,13 @@ import { Tab, Tabs } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { TabContext, TabPanel } from "@material-ui/lab";
 import axios from "axios";
+import { Dato } from "functions/Date";
 import { GetMonth } from "functions/GetMonth";
 import React, { useEffect, useState } from "react";
 import "style/Events.scss";
 
 const cors = "https://secret-ocean-49799.herokuapp.com/";
-const api = "https://secret-shore-24919.herokuapp.com/data/";
+const api = `https://secret-shore-24919.herokuapp.com/date/${Dato.toUTCString()}`;
 
 type AppProps = {
 	time: Date;
@@ -36,9 +37,9 @@ const theme = createMuiTheme({
 
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	const [events, setEvents] = useState({
-		historyData: [],
-		birthData: [],
-		deathData: [],
+		history: ["Eksempel"],
+		births: ["Eksempel"],
+		deaths: ["Eksempel"],
 		description: "",
 	});
 	const [tab, setTab] = useState("1");
@@ -62,7 +63,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	// eslint-disable-next-line
 	const historyData: any = [];
 	let i = 0;
-	events.historyData.forEach((str) => {
+	events.history.forEach((str) => {
 		historyData.push(
 			i % 2 == 0 ? <h2 key={str}>{str}</h2> : <p key={str}>{str}</p>
 		);
@@ -71,7 +72,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	// eslint-disable-next-line
 	const deathData: any = [];
 	let j = 0;
-	events.deathData.forEach((str) => {
+	events.deaths.forEach((str) => {
 		deathData.push(
 			j % 2 == 0 ? <h2 key={str}>{str}</h2> : <p key={str}>{str}</p>
 		);
@@ -80,7 +81,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	// eslint-disable-next-line
 	const birthData: any = [];
 	let k = 0;
-	events.birthData.forEach((str) => {
+	events.births.forEach((str) => {
 		birthData.push(
 			k % 2 == 0 ? <h2 key={str}>{str}</h2> : <p key={str}>{str}</p>
 		);
