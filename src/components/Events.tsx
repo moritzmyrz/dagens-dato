@@ -21,9 +21,6 @@ const theme = createMuiTheme({
 		secondary: {
 			main: "#778da9",
 		},
-		info: {
-			main: "#ff0000",
-		},
 	},
 	overrides: {
 		// Style sheet name ⚛️
@@ -104,7 +101,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 						onChange={handleChange}
 						centered
 					>
-						<Tab label="Historie" value="1"></Tab>
+						<Tab label="Historisk" value="1"></Tab>
 						<Tab label="Fødsler" value="2"></Tab>
 						<Tab label="Dødsfall" value="3"></Tab>
 					</Tabs>

@@ -5,12 +5,12 @@ import Main from "./Main";
 import Title from "./Title";
 
 const App: React.FC = () => {
-  return (
-    <div id="app-main">
-      <Main time={Dato}></Main>
-      <Title time={Dato}></Title>
-    </div>
-  );
+	return (
+		<div id="app-main">
+			<Main time={Dato}></Main>
+			<Title time={Dato}></Title>
+		</div>
+	);
 };
 
 export default App;

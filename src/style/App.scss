@@ -1,20 +1,26 @@
 @import "./variables";
 
+body {
+	background-image: url("../assets/bg.webp");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
 #app-main,
 body {
-  margin: 0;
-  background: $bg-pri;
+	margin: 0;
 
-  display: flex;
-  align-content: center;
-  justify-content: center;
+	display: flex;
+	align-content: center;
+	justify-content: center;
 }
 
 #app-main,
 #root {
-  margin: 0 auto;
+	margin: 0 auto;
 }
 
 #root {
-  margin-top: 1em;
+	margin-top: 1em;
 }
