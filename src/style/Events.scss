@@ -2,33 +2,46 @@
 @import "./mixins";
 
 .events-main {
-  @include card;
-  font-family: "Open Sans", sans-serif;
-  height: fit-content;
+	@include card;
+	font-family: "Open Sans", sans-serif;
+	height: fit-content;
 
-  & > h1 {
-    text-align: center;
-    color: $txt;
-    margin: 0;
-  }
+	& > h1 {
+		text-align: center;
+		color: $txt;
+		margin: 0;
+	}
 }
 
 #event-contents {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  color: $txt;
-  h1 {
-    font-size: 26px;
-  }
-  h1:first-child {
-    margin-left: 1em;
-  }
-  h2 {
-    margin: auto 0;
-    font-size: 20px;
-    margin-left: 1em;
-  }
-  p {
-    margin: 1em 0;
-  }
+	h1 {
+		font-size: 26px;
+	}
+
+	p {
+		margin: 1em 0;
+	}
+
+	@media screen and (min-width: 800px) {
+		display: grid;
+		grid-template-columns: 1fr 4fr;
+		h1:first-child {
+			margin-left: 1em;
+		}
+		h2 {
+			margin: auto 0;
+			font-size: 20px;
+			margin-left: 1em;
+		}
+	}
+
+	@media screen and (max-width: 799px) {
+		h1,
+		h2,
+		p {
+			text-align: center;
+		}
+	}
+
+	color: $txt;
 }

@@ -1,10 +1,17 @@
 @mixin card {
-  background: $bg-sec;
-  border-radius: 15px;
+	background: $bg-sec;
+	border-radius: 15px;
 
-  margin-bottom: 1em;
+	margin-bottom: 1em;
+	padding: 15px;
 
-  width: 680px;
-  height: 270px;
-  padding: 15px;
+	height: 270px;
+
+	@media screen and (min-width: 800px) {
+		width: 680px;
+	}
+
+	@media screen and (max-width: 799px) {
+		margin: 1em 1em 0 1em;
+	}
 }
