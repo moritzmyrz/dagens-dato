@@ -11,6 +11,10 @@
 		color: $txt;
 		margin: 0;
 	}
+	& > p {
+		text-align: center;
+		color: $txt;
+	}
 }
 
 #event-contents {
