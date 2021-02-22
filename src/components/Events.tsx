@@ -108,14 +108,14 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 						<Tab label="Fødsler" value="2"></Tab>
 						<Tab label="Dødsfall" value="3"></Tab>
 					</Tabs>
-					<TabPanel value="1" className="event-contents">
-						{historyData}
+					<TabPanel value="1">
+						<div className="event-contents">{historyData}</div>
 					</TabPanel>
-					<TabPanel value="2" className="event-contents">
-						{birthData}
+					<TabPanel value="2">
+						<div className="event-contents">{birthData}</div>
 					</TabPanel>
-					<TabPanel value="3" className="event-contents">
-						{deathData}
+					<TabPanel value="3">
+						<div className="event-contents">{deathData}</div>
 					</TabPanel>
 				</TabContext>
 			</div>
