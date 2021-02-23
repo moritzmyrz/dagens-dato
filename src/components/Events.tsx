@@ -18,10 +18,10 @@ type AppProps = {
 const theme = createMuiTheme({
 	palette: {
 		primary: {
-			main: "#415a77",
+			main: "#03045e",
 		},
 		secondary: {
-			main: "#778da9",
+			main: "#023e8a",
 		},
 	},
 });
