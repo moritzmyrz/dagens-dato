@@ -1,6 +1,6 @@
 import { Tab, Tabs } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { TabContext, TabPanel } from "@material-ui/lab";
+import { Skeleton, TabContext, TabPanel } from "@material-ui/lab";
 import axios from "axios";
 import { Dato } from "functions/Date";
 import { GetMonth } from "functions/GetMonth";
@@ -24,24 +24,14 @@ const theme = createMuiTheme({
 			main: "#778da9",
 		},
 	},
-	overrides: {
-		// Style sheet name ⚛️
-		MuiButton: {
-			// Name of the rule
-			text: {
-				// Some CSS
-				color: "white",
-			},
-		},
-	},
 });
 
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	const [events, setEvents] = useState({
-		historisk: ["Eksempel"],
-		births: ["Eksempel"],
-		deaths: ["Eksempel"],
-		description: "",
+		historisk: ["Lstr", "Lstr"],
+		births: ["Lstr", "Lstr"],
+		deaths: ["Lstr", "Lstr"],
+		description: "Laster",
 	});
 	const [tab, setTab] = useState("1");
 
@@ -102,11 +92,27 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		k++;
 	});
 
+	const contentSkeleton = (
+		<Skeleton variant="text" width={632} height={172} animation="wave" />
+	);
+
 	return (
 		<ThemeProvider theme={theme}>
 			<div className="events-main">
 				<h1>I dag, {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
-				<p>{events.description}</p>
+				<p>
+					{events.description == "Laster" ? (
+						<Skeleton
+							variant="text"
+							width={632}
+							style={{
+								margin: "0 auto",
+							}}
+						/>
+					) : (
+						events.description
+					)}
+				</p>
 				<TabContext value={`${tab}`}>
 					<Tabs
 						textColor="secondary"
@@ -121,13 +127,19 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 						<Tab label="Dødsfall" value="3"></Tab>
 					</Tabs>
 					<TabPanel value="1">
-						<div className="event-contents">{historyData}</div>
+						<div className="event-contents">
+							{events.historisk[0] == "Lstr" ? contentSkeleton : historyData}
+						</div>
 					</TabPanel>
 					<TabPanel value="2">
-						<div className="event-contents">{birthData}</div>
+						<div className="event-contents">
+							{events.births[0] == "Lstr" ? contentSkeleton : birthData}
+						</div>
 					</TabPanel>
 					<TabPanel value="3">
-						<div className="event-contents">{deathData}</div>
+						<div className="event-contents">
+							{events.deaths[0] == "Lstr" ? contentSkeleton : deathData}
+						</div>
 					</TabPanel>
 				</TabContext>
 			</div>
