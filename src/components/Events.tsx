@@ -67,7 +67,11 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	let i = 0;
 	events.historisk.forEach((str) => {
 		historyData.push(
-			i % 2 == 0 ? <h2 key={makeid(7)}>{str}</h2> : <p key={makeid(7)}>{str}</p>
+			i % 2 === 1 ? (
+				<h2 key={makeid(7)}>{str}</h2>
+			) : (
+				<p key={makeid(7)}>{str}</p>
+			)
 		);
 		i++;
 	});
@@ -76,7 +80,11 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	let j = 0;
 	events.deaths.forEach((str) => {
 		deathData.push(
-			j % 2 == 0 ? <h2 key={str}>{str}</h2> : <p key={str}>{str}</p>
+			j % 2 === 1 ? (
+				<h2 key={makeid(7)}>{str}</h2>
+			) : (
+				<p key={makeid(7)}>{str}</p>
+			)
 		);
 		j++;
 	});
@@ -85,7 +93,11 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	let k = 0;
 	events.births.forEach((str) => {
 		birthData.push(
-			k % 2 == 0 ? <h2 key={str}>{str}</h2> : <p key={str}>{str}</p>
+			k % 2 === 1 ? (
+				<h2 key={makeid(7)}>{str}</h2>
+			) : (
+				<p key={makeid(7)}>{str}</p>
+			)
 		);
 		k++;
 	});
@@ -93,7 +105,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<div className="events-main">
-				<h1>I Dag, Den {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
+				<h1>I dag, {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
 				<p>{events.description}</p>
 				<TabContext value={`${tab}`}>
 					<Tabs
