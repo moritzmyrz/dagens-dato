@@ -6,6 +6,7 @@ import { Dato } from "functions/Date";
 import { GetMonth } from "functions/GetMonth";
 import React, { useEffect, useState } from "react";
 import "style/Events.scss";
+import { makeid } from "./../functions/RandomString";
 
 const cors = "https://secret-ocean-49799.herokuapp.com/";
 const api = `https://secret-shore-24919.herokuapp.com/date/${Dato.toUTCString()}`;
@@ -37,7 +38,7 @@ const theme = createMuiTheme({
 
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	const [events, setEvents] = useState({
-		history: ["Eksempel"],
+		historisk: ["Eksempel"],
 		births: ["Eksempel"],
 		deaths: ["Eksempel"],
 		description: "",
@@ -62,10 +63,11 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	}, []);
 	// eslint-disable-next-line
 	const historyData: any = [];
+	console.log(events);
 	let i = 0;
-	events.history.forEach((str) => {
+	events.historisk.forEach((str) => {
 		historyData.push(
-			i % 2 == 0 ? <h2 key={str}>{str}</h2> : <p key={str}>{str}</p>
+			i % 2 == 0 ? <h2 key={makeid(7)}>{str}</h2> : <p key={makeid(7)}>{str}</p>
 		);
 		i++;
 	});
