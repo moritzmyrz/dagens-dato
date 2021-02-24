@@ -1,9 +1,10 @@
 import { Tab, Tabs } from "@material-ui/core";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { Skeleton, TabContext, TabPanel } from "@material-ui/lab";
 import axios from "axios";
 import { Dato } from "functions/Date";
 import { GetMonth } from "functions/GetMonth";
+import { theme } from "functions/Theme";
 import React, { useEffect, useState } from "react";
 import "style/Events.scss";
 import { makeid } from "./../functions/RandomString";
@@ -14,17 +15,6 @@ const api = `https://secret-shore-24919.herokuapp.com/date/${Dato.toUTCString()}
 type AppProps = {
 	time: Date;
 };
-
-const theme = createMuiTheme({
-	palette: {
-		primary: {
-			main: "#03045e",
-		},
-		secondary: {
-			main: "#023e8a",
-		},
-	},
-});
 
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	const [events, setEvents] = useState({
