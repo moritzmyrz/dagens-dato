@@ -28,9 +28,9 @@
 
 	@media screen and (min-width: 800px) {
 		display: grid;
-		grid-auto-flow: dense;
 
 		grid-template-columns: 1fr 4fr;
+
 		h1:first-child {
 			margin-left: 1em;
 		}

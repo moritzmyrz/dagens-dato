@@ -51,13 +51,14 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 				setEvents(response.data);
 			});
 	}, []);
+
 	// eslint-disable-next-line
 	const historyData: any = [];
-	console.log(events);
 	let i = 0;
+
 	events.historisk.forEach((str) => {
 		historyData.push(
-			i % 2 === 1 ? (
+			i % 2 === 0 ? (
 				<h2 key={makeid(7)}>{str}</h2>
 			) : (
 				<p key={makeid(7)}>{str}</p>
@@ -65,31 +66,34 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		);
 		i++;
 	});
-	// eslint-disable-next-line
-	const deathData: any = [];
-	let j = 0;
-	events.deaths.forEach((str) => {
-		deathData.push(
-			j % 2 === 1 ? (
-				<h2 key={makeid(7)}>{str}</h2>
-			) : (
-				<p key={makeid(7)}>{str}</p>
-			)
-		);
-		j++;
-	});
+
 	// eslint-disable-next-line
 	const birthData: any = [];
 	let k = 0;
+
 	events.births.forEach((str) => {
 		birthData.push(
-			k % 2 === 1 ? (
+			k % 2 === 0 ? (
 				<h2 key={makeid(7)}>{str}</h2>
 			) : (
 				<p key={makeid(7)}>{str}</p>
 			)
 		);
 		k++;
+	});
+	// eslint-disable-next-line
+	const deathData: any = [];
+	let j = 0;
+
+	events.deaths.forEach((str) => {
+		deathData.push(
+			j % 2 === 0 ? (
+				<h2 key={makeid(7)}>{str}</h2>
+			) : (
+				<p key={makeid(7)}>{str}</p>
+			)
+		);
+		j++;
 	});
 
 	const contentSkeleton = (
