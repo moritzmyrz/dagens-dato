@@ -108,14 +108,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 					)}
 				</p>
 				<TabContext value={`${tab}`}>
-					<Tabs
-						textColor="secondary"
-						color="text"
-						indicatorColor="primary"
-						value={tab}
-						onChange={handleChange}
-						centered
-					>
+					<Tabs value={tab} onChange={handleChange} centered>
 						<Tab label="Historisk" value="1"></Tab>
 						<Tab label="Fødsler" value="2"></Tab>
 						<Tab label="Dødsfall" value="3"></Tab>

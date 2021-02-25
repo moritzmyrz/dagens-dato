@@ -1,10 +1,7 @@
 @import "./variables";
 
 body {
-	background-image: url("../assets/bg.webp");
-	// background-position: center;
-	// background-repeat: no-repeat;
-	// background-size: cover;
+	background: $bg-pri;
 }
 
 #app-main,

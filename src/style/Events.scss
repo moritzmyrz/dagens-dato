@@ -56,6 +56,9 @@
 	color: $txt;
 }
 
-.MuiTab-wrapper {
+button[aria-selected="true"] > span {
+	color: $pri;
+}
+button[aria-selected="false"] > span {
 	color: $sec;
 }
