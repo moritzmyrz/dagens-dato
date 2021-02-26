@@ -2,7 +2,7 @@ import { Tab, Tabs } from "@material-ui/core";
 import { Skeleton, TabContext, TabPanel } from "@material-ui/lab";
 import axios from "axios";
 import { GetMonth } from "functions/GetMonth";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { GiHastyGrave } from "react-icons/gi";
 import { MdCake, MdTimeline } from "react-icons/md";
 import "style/Events.scss";
@@ -23,10 +23,13 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		deaths: ["Lstr", "Lstr"],
 		description: "Laster",
 	});
+	const firstUpdate = useRef(true);
 
 	const handleChange = (event, newTab) => {
 		setTab(newTab);
 	};
+
+	const cancelTokenSource = axios.CancelToken.source();
 
 	useEffect(() => {
 		axios
@@ -36,12 +39,16 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 				},
 			})
 			.then((response) => {
-				console.log(response);
 				setEvents(response.data);
 			});
 	}, []);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
+		if (firstUpdate.current) {
+			firstUpdate.current = false;
+			return;
+		}
+
 		setEvents({
 			historisk: ["Lstr", "Lstr"],
 			births: ["Lstr", "Lstr"],
@@ -53,9 +60,9 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 				headers: {
 					"Content-Type": "application/json",
 				},
+				cancelToken: cancelTokenSource.token,
 			})
 			.then((response) => {
-				console.log(response);
 				setEvents(response.data);
 			});
 	}, [time]);
