@@ -1,4 +1,5 @@
-import { Button, ButtonGroup, ThemeProvider } from "@material-ui/core";
+import { Button, ButtonGroup, ThemeProvider, Tooltip } from "@material-ui/core";
+import Zoom from "@material-ui/core/Zoom";
 import { Dato } from "functions/Date";
 import { theme } from "functions/Theme";
 import * as React from "react";
@@ -15,36 +16,42 @@ const App: React.FC = () => {
 		<ThemeProvider theme={theme}>
 			<div id="app-main">
 				<ButtonGroup>
-					<Button
-						variant="contained"
-						className="nav-btn"
-						id="navbtn1"
-						onClick={() => {
-							setTime(new Date(time.getTime() - 1 * day));
-						}}
-					>
-						<MdChevronLeft />
-					</Button>
-					<Button
-						variant="contained"
-						className="nav-btn"
-						id="navbtn2"
-						onClick={() => {
-							setTime(new Date());
-						}}
-					>
-						<MdHome />
-					</Button>
-					<Button
-						variant="contained"
-						className="nav-btn"
-						id="navbtn3"
-						onClick={() => {
-							setTime(new Date(time.getTime() + 1 * day));
-						}}
-					>
-						<MdChevronRight />
-					</Button>
+					<Tooltip title="Tilbake" arrow TransitionComponent={Zoom}>
+						<Button
+							variant="contained"
+							className="nav-btn"
+							id="navbtn1"
+							onClick={() => {
+								setTime(new Date(time.getTime() - 1 * day));
+							}}
+						>
+							<MdChevronLeft />
+						</Button>
+					</Tooltip>
+					<Tooltip title="Hjem" arrow TransitionComponent={Zoom}>
+						<Button
+							variant="contained"
+							className="nav-btn"
+							id="navbtn2"
+							onClick={() => {
+								setTime(new Date());
+							}}
+						>
+							<MdHome />
+						</Button>
+					</Tooltip>
+					<Tooltip title="Neste" arrow TransitionComponent={Zoom}>
+						<Button
+							variant="contained"
+							className="nav-btn"
+							id="navbtn3"
+							onClick={() => {
+								setTime(new Date(time.getTime() + 1 * day));
+							}}
+						>
+							<MdChevronRight />
+						</Button>
+					</Tooltip>
 				</ButtonGroup>
 				<div className="content">
 					<Main time={time}></Main>
