@@ -14,7 +14,7 @@ type AppProps = {
 
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	const cors = "https://secret-ocean-49799.herokuapp.com/";
-	const api = `https://secret-shore-24919.herokuapp.com/date/${time.toUTCString()}`;
+	const api = `https://dagens-dato.herokuapp.com/date/${time.toUTCString()}`;
 
 	const [tab, setTab] = useState("1");
 	const [events, setEvents] = useState({

@@ -7,10 +7,6 @@ body {
 #app-main,
 body {
 	margin: 0;
-
-	display: flex;
-	align-content: center;
-	justify-content: center;
 }
 
 #app-main,
@@ -22,25 +18,51 @@ body {
 	margin-top: 1em;
 }
 
-@media screen and (min-width: 726px) {
-	.nav-btn {
-		background-color: $bg-sec !important;
-		color: $txt !important;
-		height: 138px !important;
-		margin: 0 0.5em !important;
-		border-radius: 15px !important;
-		span > svg {
-			height: 3em;
-			width: 3em;
+.content {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
+
+.MuiButtonGroup-root[role="group"] {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+
+	padding: 0 1em;
+
+	// border-radius: 15px;
+
+	margin: 0 auto 1em auto !important;
+
+	@media screen and (min-width: 800px) {
+		width: 710px;
+	}
+
+	@media screen and (max-width: 799px) {
+		// padding: 0 1em;
+		.main-top,
+		.events-main {
+			width: 100%;
 		}
+	}
+	#navbtn1 {
+		border-radius: 15px 0 0 15px !important;
+	}
+	#navbtn2 {
+		border-radius: 0 15px 15px 0 !important;
 	}
 }
 
-@media screen and (max-width: 725px) {
-	#navbtn1 {
-		order: -2;
-	}
-	#navbtn2 {
-		order: -1;
+.nav-btn {
+	background-color: $bg-sec !important;
+	color: $txt !important;
+	// height: 4em;
+
+	width: 50%;
+
+	span > svg {
+		height: 3em;
+		width: 3em;
 	}
 }
