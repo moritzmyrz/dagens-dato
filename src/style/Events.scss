@@ -61,6 +61,15 @@
 	color: $txt;
 }
 
+.skeleton {
+	grid-column: 1/3;
+	margin: 0 auto;
+}
+
+div[role="tabpanel"] {
+	padding: 12px 24px;
+}
+
 button[aria-selected="true"] > span {
 	color: $pri;
 }

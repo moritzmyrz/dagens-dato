@@ -5,13 +5,15 @@
 	margin-bottom: 1em;
 	padding: 15px;
 
-	height: 270px;
-
 	@media screen and (min-width: 800px) {
 		width: 680px;
 	}
 
 	@media screen and (max-width: 799px) {
 		margin: 0 1em 1em 1em;
+		.main-top,
+		.events-main {
+			width: 100%;
+		}
 	}
 }

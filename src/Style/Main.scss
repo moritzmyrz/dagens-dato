@@ -2,34 +2,48 @@
 @import "./mixins.scss";
 
 #container {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .main-top {
-  @include card;
+	@include card;
 }
 
 #title {
-  color: $txt;
-  text-align: center;
-  font-family: "Open Sans", sans-serif;
+	height: 100%;
+	width: 100%;
 
-  margin: 3em 0;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	flex-direction: column;
 
-  h1 {
-    margin: 0;
-  }
+	color: $txt;
+	text-align: center;
+	font-family: "Open Sans", sans-serif;
+
+	h1,
+	h2 {
+		margin: 0;
+	}
+
+	h1 {
+		font-size: 3rem;
+	}
+	h2 {
+		font-size: 2rem;
+	}
 }
 
 #klokke {
-  font-size: 52px;
-  font-family: "Montserrat", sans-serif;
+	font-size: 52px;
+	font-family: "Montserrat", sans-serif;
 }
 #dato {
-  font-size: 40px;
+	font-size: 40px;
 }
 
 #uke {
-  font-size: 32px;
+	font-size: 32px;
 }

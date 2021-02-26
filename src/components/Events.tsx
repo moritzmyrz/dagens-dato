@@ -86,23 +86,37 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		j++;
 	});
 
+	const S1_skeleton = (
+		<Skeleton
+			variant="text"
+			width={`95%`}
+			height={86}
+			animation="wave"
+			className="skeleton"
+		/>
+	);
+
 	const contentSkeleton = (
-		<Skeleton variant="text" width={632} height={172} animation="wave" />
+		<>
+			{S1_skeleton}
+			{S1_skeleton}
+			{S1_skeleton}
+		</>
 	);
 
 	return (
 		<ThemeProvider theme={theme}>
 			<div className="events-main">
-				<h1>I dag, {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
+				<h1>Hendelser {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
 				<p>
 					{events.description == "Laster" ? (
 						<Skeleton
 							variant="text"
-							width={632}
+							width={`95%`}
 							style={{
 								margin: "0 auto",
 							}}
-						/>
+						></Skeleton>
 					) : (
 						events.description
 					)}
@@ -110,8 +124,8 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 				<TabContext value={`${tab}`}>
 					<Tabs value={tab} onChange={handleChange} centered>
 						<Tab label="Historisk" value="1"></Tab>
-						<Tab label="Fødsler" value="2"></Tab>
-						<Tab label="Dødsfall" value="3"></Tab>
+						<Tab label="Fødsler" value="2" />
+						<Tab label="Dødsfall" value="3" />
 					</Tabs>
 					<TabPanel value="1">
 						<div className="event-contents">
