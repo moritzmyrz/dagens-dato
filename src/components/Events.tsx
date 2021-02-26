@@ -6,6 +6,8 @@ import { Dato } from "functions/Date";
 import { GetMonth } from "functions/GetMonth";
 import { theme } from "functions/Theme";
 import React, { useEffect, useState } from "react";
+import { GiHastyGrave } from "react-icons/gi";
+import { MdCake, MdTimeline } from "react-icons/md";
 import "style/Events.scss";
 import { makeid } from "./../functions/RandomString";
 
@@ -123,9 +125,9 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 				</p>
 				<TabContext value={`${tab}`}>
 					<Tabs value={tab} onChange={handleChange} centered>
-						<Tab label="Historisk" value="1"></Tab>
-						<Tab label="Fødsler" value="2" />
-						<Tab label="Dødsfall" value="3" />
+						<Tab label="Historisk" value="1" icon={<MdTimeline />} />
+						<Tab label="Fødsler" value="2" icon={<MdCake />} />
+						<Tab label="Dødsfall" value="3" icon={<GiHastyGrave />} />
 					</Tabs>
 					<TabPanel value="1">
 						<div className="event-contents">

@@ -1,4 +1,3 @@
-import "fontsource-roboto";
 import { Dato } from "functions/Date";
 import { GetMonth } from "functions/GetMonth";
 import { GetWeekNum } from "functions/GetWeekNum";
