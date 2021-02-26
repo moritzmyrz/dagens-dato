@@ -5,10 +5,12 @@ import Main from "./Main";
 import Title from "./Title";
 
 const App: React.FC = () => {
+	const [time, setTime] = React.useState(Dato);
+
 	return (
 		<div id="app-main">
-			<Main time={Dato}></Main>
-			<Title time={Dato}></Title>
+			<Main time={time}></Main>
+			<Title time={time}></Title>
 		</div>
 	);
 };

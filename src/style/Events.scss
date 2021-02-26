@@ -87,6 +87,10 @@ button[role="tab"] > span {
 	}
 }
 
+.PrivateTabIndicator-colorSecondary-3 {
+	background-color: $pri !important;
+}
+
 button[aria-selected="true"] > span {
 	color: $pri;
 }

@@ -1,24 +1,20 @@
 import { Tab, Tabs } from "@material-ui/core";
-import { ThemeProvider } from "@material-ui/core/styles";
 import { Skeleton, TabContext, TabPanel } from "@material-ui/lab";
 import axios from "axios";
-import { Dato } from "functions/Date";
 import { GetMonth } from "functions/GetMonth";
-import { theme } from "functions/Theme";
 import React, { useEffect, useState } from "react";
 import { GiHastyGrave } from "react-icons/gi";
 import { MdCake, MdTimeline } from "react-icons/md";
 import "style/Events.scss";
 import { makeid } from "./../functions/RandomString";
 
-const cors = "https://secret-ocean-49799.herokuapp.com/";
-const api = `https://secret-shore-24919.herokuapp.com/date/${Dato.toUTCString()}`;
-
 type AppProps = {
 	time: Date;
 };
 
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
+	const cors = "https://secret-ocean-49799.herokuapp.com/";
+	const api = `https://secret-shore-24919.herokuapp.com/date/${time.toUTCString()}`;
 	const [events, setEvents] = useState({
 		historisk: ["Lstr", "Lstr"],
 		births: ["Lstr", "Lstr"],
@@ -107,46 +103,44 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	);
 
 	return (
-		<ThemeProvider theme={theme}>
-			<div className="events-main">
-				<h1>Hendelser {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
-				<p>
-					{events.description == "Laster" ? (
-						<Skeleton
-							variant="text"
-							width={`95%`}
-							style={{
-								margin: "0 auto",
-							}}
-						></Skeleton>
-					) : (
-						events.description
-					)}
-				</p>
-				<TabContext value={`${tab}`}>
-					<Tabs value={tab} onChange={handleChange} centered>
-						<Tab label="Historisk" value="1" icon={<MdTimeline />} />
-						<Tab label="Fødsler" value="2" icon={<MdCake />} />
-						<Tab label="Dødsfall" value="3" icon={<GiHastyGrave />} />
-					</Tabs>
-					<TabPanel value="1">
-						<div className="event-contents">
-							{events.historisk[0] == "Lstr" ? contentSkeleton : historyData}
-						</div>
-					</TabPanel>
-					<TabPanel value="2">
-						<div className="event-contents">
-							{events.births[0] == "Lstr" ? contentSkeleton : birthData}
-						</div>
-					</TabPanel>
-					<TabPanel value="3">
-						<div className="event-contents">
-							{events.deaths[0] == "Lstr" ? contentSkeleton : deathData}
-						</div>
-					</TabPanel>
-				</TabContext>
-			</div>
-		</ThemeProvider>
+		<div className="events-main">
+			<h1>Hendelser {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
+			<p>
+				{events.description == "Laster" ? (
+					<Skeleton
+						variant="text"
+						width={`95%`}
+						style={{
+							margin: "0 auto",
+						}}
+					></Skeleton>
+				) : (
+					events.description
+				)}
+			</p>
+			<TabContext value={`${tab}`}>
+				<Tabs value={tab} onChange={handleChange} centered>
+					<Tab label="Historisk" value="1" icon={<MdTimeline />} />
+					<Tab label="Fødsler" value="2" icon={<MdCake />} />
+					<Tab label="Dødsfall" value="3" icon={<GiHastyGrave />} />
+				</Tabs>
+				<TabPanel value="1">
+					<div className="event-contents">
+						{events.historisk[0] == "Lstr" ? contentSkeleton : historyData}
+					</div>
+				</TabPanel>
+				<TabPanel value="2">
+					<div className="event-contents">
+						{events.births[0] == "Lstr" ? contentSkeleton : birthData}
+					</div>
+				</TabPanel>
+				<TabPanel value="3">
+					<div className="event-contents">
+						{events.deaths[0] == "Lstr" ? contentSkeleton : deathData}
+					</div>
+				</TabPanel>
+			</TabContext>
+		</div>
 	);
 };
 
