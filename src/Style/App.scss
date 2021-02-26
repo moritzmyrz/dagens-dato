@@ -54,12 +54,20 @@ body {
 	}
 }
 
+button.MuiButton-contained.nav-btn {
+	box-shadow: none;
+}
+
 .nav-btn {
 	background-color: $bg-sec !important;
 	color: $txt !important;
-	// height: 4em;
-
 	width: 50%;
+
+	transition: color 0.5s ease !important;
+	&:hover {
+		background-color: #1e1f20 !important;
+		color: $pri !important;
+	}
 
 	span > svg {
 		height: 3em;
