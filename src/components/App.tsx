@@ -1,16 +1,21 @@
 import { Button, ButtonGroup, ThemeProvider, Tooltip } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
 import { Dato } from "functions/Date";
+import { GetMonth } from "functions/GetMonth";
 import { theme } from "functions/Theme";
 import * as React from "react";
+import { useEffect } from "react";
 import { MdChevronLeft, MdChevronRight, MdHome } from "react-icons/md";
 import "style/App.scss";
 import Main from "./Main";
-import Title from "./Title";
 
 const App: React.FC = () => {
 	const [time, setTime] = React.useState(Dato);
 	const day = 86400000;
+
+	useEffect(() => {
+		document.title = `${time.getDate()}. ${GetMonth(time.getMonth())}`;
+	}, [time]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -55,7 +60,6 @@ const App: React.FC = () => {
 				</ButtonGroup>
 				<div className="content">
 					<Main time={time}></Main>
-					<Title time={time}></Title>
 				</div>
 			</div>
 		</ThemeProvider>
