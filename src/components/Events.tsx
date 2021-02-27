@@ -13,7 +13,6 @@ type AppProps = {
 };
 
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
-	const cors = "https://secret-ocean-49799.herokuapp.com/";
 	const api = `https://dagens-dato.herokuapp.com/date/${time.toUTCString()}`;
 
 	const [tab, setTab] = useState("1");
@@ -33,7 +32,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 
 	useEffect(() => {
 		axios
-			.get(cors + api, {
+			.get(api, {
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -56,7 +55,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 			description: "Laster",
 		});
 		axios
-			.get(cors + api, {
+			.get(api, {
 				headers: {
 					"Content-Type": "application/json",
 				},
