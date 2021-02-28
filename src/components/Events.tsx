@@ -1,9 +1,9 @@
 import { Snackbar, Tab, Tabs, Tooltip } from "@material-ui/core";
 import Zoom from "@material-ui/core/Zoom";
-import { Skeleton, TabContext, TabPanel } from "@material-ui/lab";
+import { Alert, Skeleton, TabContext, TabPanel } from "@material-ui/lab";
 import axios from "axios";
 import { GetMonth } from "functions/GetMonth";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GiHastyGrave } from "react-icons/gi";
 import { MdCake, MdTimeline } from "react-icons/md";
 import "style/Events.scss";
@@ -16,15 +16,19 @@ type AppProps = {
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	const api = `https://dagens-dato.herokuapp.com/date/${time.toUTCString()}`;
 
-	const [tab, setTab] = useState("1");
-	const [events, setEvents] = useState({
+	const defaultEvents = {
 		historisk: ["Lstr", "Lstr"],
 		births: ["Lstr", "Lstr"],
 		deaths: ["Lstr", "Lstr"],
 		description: "Laster",
-	});
+	};
+
+	const [tab, setTab] = useState("1");
+	const [events, setEvents] = useState(defaultEvents);
 	const [retrying, setRetrying] = useState(false);
 	const firstUpdate = useRef(true);
+	// eslint-disable-next-line prefer-const
+	let [errors, setErrors] = useState(0);
 
 	const handleChange = (event, newTab) => {
 		setTab(newTab);
@@ -32,10 +36,14 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 
 	function apiCatch(err) {
 		setRetrying(true);
+		setTimeout(() => {
+			retry();
+		}, 4500);
 		console.error(err);
 	}
 
-	useEffect(() => {
+	const retry = () => {
+		setEvents(defaultEvents);
 		axios
 			.get(api, {
 				headers: {
@@ -44,33 +52,23 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 			})
 			.then((response) => {
 				setEvents(response.data);
+				setRetrying(false);
 			})
 			.catch((err) => apiCatch(err));
+	};
+
+	useEffect(() => {
+		retry();
 	}, []);
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (firstUpdate.current) {
 			firstUpdate.current = false;
 			return;
 		}
 
-		setEvents({
-			historisk: ["Lstr", "Lstr"],
-			births: ["Lstr", "Lstr"],
-			deaths: ["Lstr", "Lstr"],
-			description: "Laster",
-		});
-		axios
-			.get(api, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-			.then((response) => {
-				setEvents(response.data);
-			})
-			.catch((err) => apiCatch(err));
-	}, [time]);
+		retry();
+	}, [time, errors]);
 
 	// eslint-disable-next-line
 	const historyData: any = [];
@@ -160,8 +158,9 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 			<Snackbar
 				anchorOrigin={{ horizontal: "center", vertical: "top" }}
 				open={retrying}
-				message="Retrying"
-			/>
+			>
+				<Alert severity="warning">Oops, noe skjedde. Vi fikser feilen!</Alert>
+			</Snackbar>
 
 			<h1>Hendelser {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
 			<p>
