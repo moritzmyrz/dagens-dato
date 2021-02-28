@@ -14,7 +14,9 @@ type AppProps = {
 };
 
 const Events: React.FC<AppProps> = ({ time }: AppProps) => {
-	const api = `https://dagens-dato.herokuapp.com/date/${time.toUTCString()}`;
+	const api = `https://dagens-dato.herokuapp.com/date/${new Date(
+		time.getTime() + 60 * 60 * 1000
+	).toUTCString()}`;
 
 	const defaultEvents = {
 		historisk: ["Lstr", "Lstr"],
