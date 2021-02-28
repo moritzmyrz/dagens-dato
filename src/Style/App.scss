@@ -49,7 +49,7 @@ body {
 	#navbtn1 {
 		border-radius: 15px 0 0 15px !important;
 	}
-	#navbtn3 {
+	#navbtn4 {
 		border-radius: 0 15px 15px 0 !important;
 	}
 }
@@ -68,9 +68,20 @@ button.MuiButton-contained.nav-btn {
 		background-color: #1e1f20 !important;
 		color: $pri !important;
 	}
-
 	span > svg {
+		height: 2em;
+		width: 2em;
+	}
+	&:first-child > span > svg {
 		height: 3em;
 		width: 3em;
 	}
+	&:last-child > span > svg {
+		height: 3em;
+		width: 3em;
+	}
+}
+
+.hidden {
+	display: none !important;
 }
