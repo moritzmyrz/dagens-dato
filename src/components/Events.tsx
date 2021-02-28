@@ -28,7 +28,6 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	const [retrying, setRetrying] = useState(false);
 	const firstUpdate = useRef(true);
 	// eslint-disable-next-line prefer-const
-	let [errors, setErrors] = useState(0);
 
 	const handleChange = (event, newTab) => {
 		setTab(newTab);
@@ -68,7 +67,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		}
 
 		retry();
-	}, [time, errors]);
+	}, [time]);
 
 	// eslint-disable-next-line
 	const historyData: any = [];
