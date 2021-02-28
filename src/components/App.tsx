@@ -45,7 +45,7 @@ const App: React.FC = () => {
 			</MuiPickersUtilsProvider>
 			<div id="app-main">
 				<ButtonGroup>
-					<Tooltip title="Tilbake" arrow TransitionComponent={Zoom}>
+					<Tooltip title="Forrige Dato" arrow TransitionComponent={Zoom}>
 						<Button
 							variant="contained"
 							className="nav-btn"
@@ -57,7 +57,7 @@ const App: React.FC = () => {
 							<MdChevronLeft />
 						</Button>
 					</Tooltip>
-					<Tooltip title="Hjem" arrow TransitionComponent={Zoom}>
+					<Tooltip title="Dagens Dato" arrow TransitionComponent={Zoom}>
 						<Button
 							variant="contained"
 							className="nav-btn"
@@ -69,7 +69,7 @@ const App: React.FC = () => {
 							<MdHome />
 						</Button>
 					</Tooltip>
-					<Tooltip title="Velg" arrow TransitionComponent={Zoom}>
+					<Tooltip title="Velg Dato" arrow TransitionComponent={Zoom}>
 						<Button
 							variant="contained"
 							className="nav-btn"
@@ -81,7 +81,7 @@ const App: React.FC = () => {
 							<CgCalendarToday />
 						</Button>
 					</Tooltip>
-					<Tooltip title="Neste" arrow TransitionComponent={Zoom}>
+					<Tooltip title="Neste Dato" arrow TransitionComponent={Zoom}>
 						<Button
 							variant="contained"
 							className="nav-btn"
