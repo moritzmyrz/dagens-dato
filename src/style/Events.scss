@@ -70,6 +70,17 @@ div[role="tabpanel"] {
 	padding: 12px 24px;
 }
 
+@media screen and (min-width: 450px) {
+	div[role="tablist"] {
+		height: 2em;
+		button {
+			span:first-child {
+				margin-bottom: 1.5em;
+			}
+		}
+	}
+}
+
 button[role="tab"] > span {
 	font-size: 16px;
 	font-weight: 600;

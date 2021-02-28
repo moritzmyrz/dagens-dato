@@ -7,7 +7,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { MdChevronLeft, MdChevronRight, MdHome } from "react-icons/md";
 import "style/App.scss";
-import Main from "./Main";
+import Content from "./Content";
 
 const App: React.FC = () => {
 	const [time, setTime] = React.useState(Dato);
@@ -59,7 +59,7 @@ const App: React.FC = () => {
 					</Tooltip>
 				</ButtonGroup>
 				<div className="content">
-					<Main time={time}></Main>
+					<Content time={time}></Content>
 				</div>
 			</div>
 		</ThemeProvider>

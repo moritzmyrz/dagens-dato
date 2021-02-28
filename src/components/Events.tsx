@@ -1,4 +1,5 @@
-import { Tab, Tabs } from "@material-ui/core";
+import { Snackbar, Tab, Tabs, Tooltip } from "@material-ui/core";
+import Zoom from "@material-ui/core/Zoom";
 import { Skeleton, TabContext, TabPanel } from "@material-ui/lab";
 import axios from "axios";
 import { GetMonth } from "functions/GetMonth";
@@ -22,13 +23,17 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		deaths: ["Lstr", "Lstr"],
 		description: "Laster",
 	});
+	const [retrying, setRetrying] = useState(false);
 	const firstUpdate = useRef(true);
 
 	const handleChange = (event, newTab) => {
 		setTab(newTab);
 	};
 
-	const cancelTokenSource = axios.CancelToken.source();
+	function apiCatch(err) {
+		setRetrying(true);
+		console.error(err);
+	}
 
 	useEffect(() => {
 		axios
@@ -39,7 +44,8 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 			})
 			.then((response) => {
 				setEvents(response.data);
-			});
+			})
+			.catch((err) => apiCatch(err));
 	}, []);
 
 	useLayoutEffect(() => {
@@ -59,11 +65,11 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				cancelToken: cancelTokenSource.token,
 			})
 			.then((response) => {
 				setEvents(response.data);
-			});
+			})
+			.catch((err) => apiCatch(err));
 	}, [time]);
 
 	// eslint-disable-next-line
@@ -73,7 +79,14 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	events.historisk.forEach((str) => {
 		historyData.push(
 			i % 2 === 0 ? (
-				<h2 key={makeid(7)}>{str}</h2>
+				<Tooltip
+					title={`${time.getFullYear() - parseInt(str)} år siden`}
+					placement="top"
+					TransitionComponent={Zoom}
+					arrow
+				>
+					<h2 key={makeid(7)}>{str}</h2>
+				</Tooltip>
 			) : (
 				<p key={makeid(7)}>{str}</p>
 			)
@@ -88,7 +101,14 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	events.births.forEach((str) => {
 		birthData.push(
 			k % 2 === 0 ? (
-				<h2 key={makeid(7)}>{str}</h2>
+				<Tooltip
+					title={`${time.getFullYear() - parseInt(str)} år siden`}
+					placement="top"
+					TransitionComponent={Zoom}
+					arrow
+				>
+					<h2 key={makeid(7)}>{str}</h2>
+				</Tooltip>
 			) : (
 				<p key={makeid(7)}>{str}</p>
 			)
@@ -102,7 +122,14 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 	events.deaths.forEach((str) => {
 		deathData.push(
 			j % 2 === 0 ? (
-				<h2 key={makeid(7)}>{str}</h2>
+				<Tooltip
+					title={`${time.getFullYear() - parseInt(str)} år siden`}
+					placement="top"
+					TransitionComponent={Zoom}
+					arrow
+				>
+					<h2 key={makeid(7)}>{str}</h2>
+				</Tooltip>
 			) : (
 				<p key={makeid(7)}>{str}</p>
 			)
@@ -130,6 +157,12 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 
 	return (
 		<div className="events-main">
+			<Snackbar
+				anchorOrigin={{ horizontal: "center", vertical: "top" }}
+				open={retrying}
+				message="Retrying"
+			/>
+
 			<h1>Hendelser {`${time.getDate()}. ${GetMonth(time.getMonth())}`}</h1>
 			<p>
 				{events.description == "Laster" ? (
