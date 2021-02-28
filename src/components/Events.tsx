@@ -84,7 +84,9 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 					TransitionComponent={Zoom}
 					arrow
 				>
-					<h2 key={makeid(7)}>{str}</h2>
+					<h2 key={makeid(7)} className="noselect">
+						{str}
+					</h2>
 				</Tooltip>
 			) : (
 				<p key={makeid(7)}>{str}</p>
@@ -106,7 +108,9 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 					TransitionComponent={Zoom}
 					arrow
 				>
-					<h2 key={makeid(7)}>{str}</h2>
+					<h2 key={makeid(7)} className="noselect">
+						{str}
+					</h2>
 				</Tooltip>
 			) : (
 				<p key={makeid(7)}>{str}</p>
@@ -127,7 +131,9 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 					TransitionComponent={Zoom}
 					arrow
 				>
-					<h2 key={makeid(7)}>{str}</h2>
+					<h2 key={makeid(7)} className="noselect">
+						{str}
+					</h2>
 				</Tooltip>
 			) : (
 				<p key={makeid(7)}>{str}</p>
