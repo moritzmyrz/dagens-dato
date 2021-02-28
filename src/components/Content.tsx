@@ -3,6 +3,7 @@ import { GetWeekNum } from "functions/GetWeekNum";
 import React from "react";
 import "style/Main.scss";
 import Events from "./Events";
+import Footer from "./Footer";
 
 type AppProps = {
 	time: Date;
@@ -21,6 +22,7 @@ const Main: React.FC<AppProps> = ({ time }: AppProps) => {
 				</div>
 			</div>
 			<Events time={time} />
+			<Footer time={time} />
 		</div>
 	);
 };
