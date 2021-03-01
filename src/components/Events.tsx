@@ -79,6 +79,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		historyData.push(
 			i % 2 === 0 ? (
 				<Tooltip
+					leaveTouchDelay={3000}
 					title={`${time.getFullYear() - parseInt(str)} år siden`}
 					placement="top"
 					TransitionComponent={Zoom}
@@ -103,6 +104,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		birthData.push(
 			k % 2 === 0 ? (
 				<Tooltip
+					leaveTouchDelay={3000}
 					title={`${time.getFullYear() - parseInt(str)} år siden`}
 					placement="top"
 					TransitionComponent={Zoom}
@@ -126,6 +128,7 @@ const Events: React.FC<AppProps> = ({ time }: AppProps) => {
 		deathData.push(
 			j % 2 === 0 ? (
 				<Tooltip
+					leaveTouchDelay={3000}
 					title={`${time.getFullYear() - parseInt(str)} år siden`}
 					placement="top"
 					TransitionComponent={Zoom}

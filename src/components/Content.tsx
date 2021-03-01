@@ -30,6 +30,7 @@ const Main: React.FC<AppProps> = ({ time }: AppProps) => {
 					<Tooltip
 						title={weekDescription(startDateOfWeek, endDateOfWeek)}
 						arrow
+						leaveTouchDelay={3000}
 					>
 						<h2 id="uke" className="noselect">
 							Uke {GetWeekNum(time)}
