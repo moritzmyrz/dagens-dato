@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { CgCalendarToday } from "react-icons/cg";
 import { MdChevronLeft, MdChevronRight, MdHome } from "react-icons/md";
 import "style/app.scss";
-import Content from "./content";
+import Content from "./Content";
 
 const App: React.FC = () => {
 	const [time, setTime] = useState(Dato);

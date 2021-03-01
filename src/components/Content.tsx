@@ -6,8 +6,8 @@ import { GetWeekNum } from "functions/GetWeekNum";
 import { weekDescription } from "functions/WeekDesc";
 import React from "react";
 import "style/content.scss";
-import Events from "./events";
-import Footer from "./footer";
+import Events from "./Events";
+import Footer from "./Footer";
 
 type AppProps = {
 	time: Date;
