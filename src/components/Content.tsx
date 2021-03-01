@@ -1,9 +1,9 @@
 import { GetMonth } from "functions/GetMonth";
 import { GetWeekNum } from "functions/GetWeekNum";
 import React from "react";
-import "style/Main.scss";
-import Events from "./Events";
-import Footer from "./Footer";
+import "style/content.scss";
+import Events from "./events";
+import Footer from "./footer";
 
 type AppProps = {
 	time: Date;

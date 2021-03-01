@@ -9,8 +9,8 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { CgCalendarToday } from "react-icons/cg";
 import { MdChevronLeft, MdChevronRight, MdHome } from "react-icons/md";
-import "style/App.scss";
-import Content from "./Content";
+import "style/app.scss";
+import Content from "./content";
 
 const App: React.FC = () => {
 	const [time, setTime] = useState(Dato);

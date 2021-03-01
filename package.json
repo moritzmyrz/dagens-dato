@@ -1,7 +1,22 @@
 {
-	"name": "otd",
+	"name": "dagens-dato",
 	"version": "0.8.3",
 	"private": true,
+	"license": "GPL-3.0-only",
+	"homepage": "https://github.com/moritzmyrz/dagens-dato",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/moritzmyrz/dagens-dato"
+	},
+	"bugs": {
+		"url": "https://github.com/moritzmyrz/dagens-dato/issues",
+		"email": "moritzmyrz@gmail.com"
+	},
+	"author": {
+		"name": "Moritz Myrseth",
+		"email": "moritzmyrz@gmail.com",
+		"url": "https://github.com/moritzmyrz"
+	},
 	"dependencies": {
 		"@date-io/date-fns": "^1.3.13",
 		"@material-ui/core": "^4.11.3",

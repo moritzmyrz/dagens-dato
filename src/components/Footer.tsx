@@ -2,7 +2,7 @@ import { Link } from "@material-ui/core";
 import { GetMonth } from "functions/GetMonth";
 import React from "react";
 import { SiCreativecommons } from "react-icons/si";
-import "style/Footer.scss";
+import "style/footer.scss";
 
 type AppProps = {
 	time: Date;
