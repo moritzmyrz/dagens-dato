@@ -3,7 +3,6 @@
 	"version": "0.8.3",
 	"private": true,
 	"license": "GPL-3.0-only",
-	"homepage": "https://github.com/moritzmyrz/dagens-dato",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/moritzmyrz/dagens-dato"
