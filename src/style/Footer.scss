@@ -3,9 +3,10 @@
 
 .footer {
 	@include card;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding-top: 1px;
+	padding-bottom: 1px;
 	p {
+		margin: 8px 0;
 		font-family: "Source Sans Pro", sans-serif;
 		color: #dee2e6;
 		text-align: center;
