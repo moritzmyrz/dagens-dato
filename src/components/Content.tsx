@@ -5,7 +5,7 @@ import { GetMonth } from "functions/GetMonth";
 import { GetWeekNum } from "functions/GetWeekNum";
 import { weekDescription } from "functions/WeekDesc";
 import React from "react";
-import "style/content.scss";
+import "style/Content.scss";
 import Events from "./Events";
 import Footer from "./Footer";
 

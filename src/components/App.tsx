@@ -9,7 +9,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { CgCalendarToday } from "react-icons/cg";
 import { MdChevronLeft, MdChevronRight, MdHome } from "react-icons/md";
-import "style/app.scss";
+import "style/App.scss";
 import Content from "./Content";
 
 const App: React.FC = () => {

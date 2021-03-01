@@ -6,7 +6,7 @@ import { GetMonth } from "functions/GetMonth";
 import React, { useEffect, useRef, useState } from "react";
 import { GiHastyGrave } from "react-icons/gi";
 import { MdCake, MdTimeline } from "react-icons/md";
-import "style/events.scss";
+import "style/Events.scss";
 import { makeid } from "../functions/RandomString";
 
 type AppProps = {
