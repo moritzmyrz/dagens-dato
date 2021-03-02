@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
 	const handleSetDateChange = (date) => {
 		setTime(date);
-		cookies.set("date", date.toUTCString(), { path: "/" });
+		cookies.set("date", date.toUTCString(), { path: "/", expires: date });
 		setselectDateDialog(false);
 	};
 
