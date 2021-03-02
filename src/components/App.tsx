@@ -10,10 +10,14 @@ import { useEffect, useState } from "react";
 import { CgCalendarToday } from "react-icons/cg";
 import { MdChevronLeft, MdChevronRight, MdHome } from "react-icons/md";
 import "style/App.scss";
+import Cookies from "universal-cookie";
 import Content from "./Content";
+const cookies = new Cookies();
 
 const App: React.FC = () => {
-	const [time, setTime] = useState(Dato);
+	const [time, setTime] = useState(
+		cookies.get("date") == undefined ? Dato : new Date(cookies.get("date"))
+	);
 	const day = 86400000;
 	const [selectDateDialog, setselectDateDialog] = useState(false);
 
@@ -23,6 +27,7 @@ const App: React.FC = () => {
 
 	const handleSetDateChange = (date) => {
 		setTime(date);
+		cookies.set("date", date.toUTCString(), { path: "/" });
 		setselectDateDialog(false);
 	};
 
@@ -51,7 +56,7 @@ const App: React.FC = () => {
 							className="nav-btn"
 							id="navbtn1"
 							onClick={() => {
-								setTime(new Date(time.getTime() - 1 * day));
+								handleSetDateChange(new Date(time.getTime() - 1 * day));
 							}}
 						>
 							<MdChevronLeft />
@@ -63,7 +68,7 @@ const App: React.FC = () => {
 							className="nav-btn"
 							id="navbtn2"
 							onClick={() => {
-								setTime(new Date());
+								handleSetDateChange(new Date());
 							}}
 						>
 							<MdHome />
@@ -87,7 +92,7 @@ const App: React.FC = () => {
 							className="nav-btn"
 							id="navbtn4"
 							onClick={() => {
-								setTime(new Date(time.getTime() + 1 * day));
+								handleSetDateChange(new Date(time.getTime() + 1 * day));
 							}}
 						>
 							<MdChevronRight />
