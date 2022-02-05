@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--background-secondary: theme('colors.neutral.200');
+
+	--text: theme('colors.black');
+}
+[data-theme='dark'] {
+	--background-secondary: theme('colors.neutral.900');
+
+	--text: theme('colors.white');
+}

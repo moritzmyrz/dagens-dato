@@ -3,4 +3,4 @@ export const Timer = (date?: number | Date): Date => {
 	else return new Date();
 };
 
-export const Dato: Date = Timer();
+export const Dato = Timer();
