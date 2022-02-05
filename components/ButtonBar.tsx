@@ -1,6 +1,6 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
-import { Button, ButtonGroup, TextField, Tooltip, Zoom } from '@mui/material';
+import { Button, ButtonGroup, Tooltip, Zoom } from '@mui/material';
 import React, { useState } from 'react';
 import { CgCalendarToday } from 'react-icons/cg';
 import { MdChevronLeft, MdChevronRight, MdHome } from 'react-icons/md';
@@ -21,20 +21,6 @@ const ButtonBar = () => {
 
 	return (
 		<div className="w-[97%] sm:w-[450px]">
-			<LocalizationProvider dateAdapter={DateFnsUtils}>
-				<DatePicker
-					format="dd/MM"
-					renderInput={(params: any) => (
-						<TextField className="hidden" {...params}></TextField>
-					)}
-					open={selectDateDialog}
-					onClose={() => setSelectDateDialog(false)}
-					value={time}
-					cancelLabel="Avbryt"
-					okLabel="OK" // @ts-ignore
-					onChange={handleSetDateChange}
-				/>
-			</LocalizationProvider>
 			<ButtonGroup
 				disableElevation
 				className="bg-backgroundsecondary  h-12 w-full flex flex-nowrap  rounded-xl"
@@ -61,17 +47,28 @@ const ButtonBar = () => {
 						<MdHome className="h-6 w-6 text-text" />
 					</Button>
 				</Tooltip>
-				<Tooltip title="Velg Dato" arrow TransitionComponent={Zoom}>
-					<Button
-						variant="contained"
-						className="flex-1"
-						onClick={() => {
-							setSelectDateDialog(true);
-						}}
-					>
-						<CgCalendarToday className="h-6 w-6 text-text" />
-					</Button>
-				</Tooltip>
+				<LocalizationProvider dateAdapter={DateFnsUtils}>
+					<DatePicker
+						format="dd/MM"
+						renderInput={(params: any) => (
+							<Tooltip title="Velg Dato" arrow TransitionComponent={Zoom}>
+								<Button
+									variant="contained"
+									className="flex-1"
+									onClick={() => {
+										setSelectDateDialog(true);
+									}}
+								>
+									<CgCalendarToday className="h-6 w-6 text-text" />
+								</Button>
+							</Tooltip>
+						)}
+						open={selectDateDialog}
+						onClose={() => setSelectDateDialog(false)}
+						value={time}
+						onChange={handleSetDateChange}
+					/>
+				</LocalizationProvider>
 				<Tooltip title="Neste Dato" arrow TransitionComponent={Zoom}>
 					<Button
 						variant="contained"
