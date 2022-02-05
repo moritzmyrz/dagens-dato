@@ -14,8 +14,11 @@ const ButtonBar = () => {
 
 	const day = 86400000;
 
-	const handleSetDateChange = (date: Date) => {
-		setTime(date);
+	const handleSetDateChange = (
+		date: Date | null,
+		keyboardInputValue?: string | undefined
+	) => {
+		setTime(date || new Date());
 		setSelectDateDialog(false);
 	};
 
@@ -49,7 +52,6 @@ const ButtonBar = () => {
 				</Tooltip>
 				<LocalizationProvider dateAdapter={DateFnsUtils}>
 					<DatePicker
-						format="dd/MM"
 						renderInput={(params: any) => (
 							<Tooltip title="Velg Dato" arrow TransitionComponent={Zoom}>
 								<Button
