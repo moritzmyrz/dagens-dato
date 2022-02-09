@@ -13,6 +13,19 @@ import {
 import { useRecoilValue } from 'recoil';
 import { timeState } from '../state/timeState';
 
+const EventSkeleton: React.FC = ({ children }) => {
+	return (
+		<Skeleton
+			variant="text"
+			// width={`95%`}
+			// height={86}
+			animation="wave"
+		>
+			{children}
+		</Skeleton>
+	);
+};
+
 const TabTimeline: React.VFC<{
 	tabValue: string;
 	eventArray: string[];
@@ -82,19 +95,6 @@ const TabTimeline: React.VFC<{
 				))}
 			</Timeline>
 		</TabPanel>
-	);
-};
-
-const EventSkeleton: React.FC = ({ children }) => {
-	return (
-		<Skeleton
-			variant="text"
-			// width={`95%`}
-			// height={86}
-			animation="wave"
-		>
-			{children}
-		</Skeleton>
 	);
 };
 

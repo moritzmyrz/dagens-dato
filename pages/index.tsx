@@ -1,6 +1,11 @@
 import { IconButton, Tooltip } from '@material-ui/core';
+import axios from 'axios';
 import { endOfWeek, startOfWeek } from 'date-fns';
-import type { NextPage } from 'next';
+import type {
+	GetServerSideProps,
+	InferGetServerSidePropsType,
+	NextPage,
+} from 'next';
 import { useTheme } from 'next-themes';
 import React, { useEffect } from 'react';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
@@ -14,7 +19,31 @@ import { GetWeekNum } from '../functions/GetWeekNum';
 import { weekDescription } from '../functions/WeekDesc';
 import { timeState } from '../state/timeState';
 
-const Home: NextPage = () => {
+interface data {
+	historisk: string[];
+	births: string[];
+	deaths: string[];
+	description: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const api = `/api/${new Date().toUTCString()}`;
+	// Fetch data from external API
+	const res = await axios.get(api, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	const data: data = await res.data;
+
+	// Pass data to the page via props
+	return { props: { data } };
+};
+
+const Home: NextPage = ({
+	data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { setTheme, theme } = useTheme();
 
 	const time = useRecoilValue(timeState);
@@ -47,7 +76,7 @@ const Home: NextPage = () => {
 						</h2>
 					</Tooltip>
 				</div>
-				<Events />
+				<Events data={data} />
 				<Footer />
 				<IconButton
 					color="inherit"
