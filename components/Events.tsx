@@ -1,5 +1,5 @@
-import { TabContext } from '@mui/lab';
-import { Alert, Skeleton, Snackbar, Tab, Tabs } from '@mui/material';
+import { Snackbar, Tab, Tabs } from '@material-ui/core';
+import { Alert, Skeleton, TabContext } from '@material-ui/lab';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { GiHastyGrave } from 'react-icons/gi';
@@ -65,7 +65,7 @@ const Events: React.VFC = () => {
 	}, [time]);
 
 	return (
-		<div className="bg-backgroundsecondary text-text w-[97%] sm:w-[450px] px-4 py-2 rounded-xl">
+		<div className="bg-backgroundsecondary text-text w-[97%] rounded-xl px-4 py-2 sm:w-[500px]">
 			<Snackbar
 				anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
 				open={retrying}
@@ -82,25 +82,28 @@ const Events: React.VFC = () => {
 					</p>
 				</Skeleton>
 			) : (
-				<p className="text-center px-4">{events.description}</p>
+				<p className="px-4 text-center">{events.description}</p>
 			)}
 			<TabContext value={`${tab}`}>
-				<Tabs value={tab} onChange={handleChange} centered>
+				<Tabs variant="standard" centered value={tab} onChange={handleChange}>
 					<Tab
 						className="text-text"
+						style={{ flexShrink: 1 }}
 						label="Historisk"
 						value="1"
 						icon={<MdTimeline className="text-text" />}
 					/>
 					<Tab
-						label="Fødsler"
 						className="text-text"
+						style={{ flexShrink: 1 }}
+						label="Fødsler"
 						value="2"
 						icon={<MdCake className="text-text" />}
 					/>
 					<Tab
-						label="Dødsfall"
 						className="text-text"
+						style={{ flexShrink: 1 }}
+						label="Dødsfall"
 						value="3"
 						icon={<GiHastyGrave className="text-text" />}
 					/>

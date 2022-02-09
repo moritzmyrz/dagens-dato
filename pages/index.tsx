@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@material-ui/core';
 import { endOfWeek, startOfWeek } from 'date-fns';
 import type { NextPage } from 'next';
 import { useTheme } from 'next-themes';
@@ -26,13 +26,13 @@ const Home: NextPage = () => {
 	}, [time]);
 
 	return (
-		<div className="h-screen mx-auto flex flex-col">
-			<div className="py-4 flex flex-col space-y-4 justify-center items-center">
+		<div className="mx-auto flex h-screen flex-col">
+			<div className="flex flex-col items-center justify-center space-y-4 py-4">
 				<ButtonBar />
-				<div className="bg-backgroundsecondary px-4 py-2 rounded-xl w-[97%] sm:w-[450px]">
-					<h2 className="text-xl text-center font-bold">{GetDay(time)} </h2>
+				<div className="bg-backgroundsecondary w-[97%] rounded-xl px-4 py-2 sm:w-[500px]">
+					<h2 className="text-center text-xl font-bold">{GetDay(time)} </h2>
 
-					<h1 className="text-3xl text-center font-bold">
+					<h1 className="text-center text-3xl font-bold">
 						{`${time.getDate()}. ${GetMonth(time.getMonth())}
           ${time.getFullYear()}`}
 					</h1>
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
 						arrow
 						leaveTouchDelay={3000}
 					>
-						<h2 className="text-xl text-center font-semibold text-text">
+						<h2 className="text-text text-center text-xl font-semibold">
 							Uke {GetWeekNum(time)}
 						</h2>
 					</Tooltip>

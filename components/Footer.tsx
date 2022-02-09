@@ -1,4 +1,4 @@
-import { Link } from '@mui/material';
+import { Link } from '@material-ui/core';
 import React from 'react';
 import { SiCreativecommons } from 'react-icons/si';
 import { useRecoilValue } from 'recoil';
@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
 	).toLowerCase()}`;
 
 	return (
-		<div className="bg-backgroundsecondary justify-center flex items-center space-x-1 text-text px-4 py-2 rounded-xl w-[97%] sm:w-[450px]">
+		<div className="bg-backgroundsecondary text-text flex w-[97%] items-center justify-center space-x-1 rounded-xl px-4 py-2 sm:w-[500px]">
 			<p>
 				All informasjon er hentet fra{' '}
 				<Link href={link} target="_blank" rel="noopener">

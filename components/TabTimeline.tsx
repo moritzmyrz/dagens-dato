@@ -1,4 +1,6 @@
+import { Tooltip } from '@material-ui/core';
 import {
+	Skeleton,
 	TabPanel,
 	Timeline,
 	TimelineConnector,
@@ -7,8 +9,7 @@ import {
 	TimelineItem,
 	TimelineOppositeContent,
 	TimelineSeparator,
-} from '@mui/lab';
-import { Skeleton, Tooltip } from '@mui/material';
+} from '@material-ui/lab';
 import { useRecoilValue } from 'recoil';
 import { timeState } from '../state/timeState';
 
@@ -42,7 +43,7 @@ const TabTimeline: React.VFC<{
 			<Timeline className="text-text">
 				{makeTimeline(eventArray).map((o: timelineItem, i: number) => (
 					<TimelineItem key={i}>
-						<TimelineOppositeContent className="flex-none">
+						<TimelineOppositeContent className="w-[66px] !flex-none">
 							{o.date == 'Loading' ? (
 								<EventSkeleton>
 									<p>0000</p>

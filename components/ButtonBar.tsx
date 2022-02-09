@@ -1,6 +1,6 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { DatePicker, LocalizationProvider } from '@mui/lab';
-import { Button, ButtonGroup, Tooltip, Zoom } from '@mui/material';
+import { Button, ButtonGroup, Tooltip, Zoom } from '@material-ui/core';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React, { useState } from 'react';
 import { CgCalendarToday } from 'react-icons/cg';
 import { MdChevronLeft, MdChevronRight, MdHome } from 'react-icons/md';
@@ -23,10 +23,26 @@ const ButtonBar = () => {
 	};
 
 	return (
-		<div className="w-[97%] sm:w-[450px]">
+		<div className="w-[97%] sm:w-[500px]">
+			<MuiPickersUtilsProvider utils={DateFnsUtils}>
+				<DatePicker
+					disableToolbar
+					style={{ display: 'none' }}
+					format="dd/MM"
+					open={selectDateDialog}
+					// @ts-ignore
+					onClose={() => {
+						setSelectDateDialog(false);
+					}}
+					value={time}
+					cancelLabel="Avbryt"
+					okLabel="OK"
+					onChange={handleSetDateChange}
+				/>
+			</MuiPickersUtilsProvider>
 			<ButtonGroup
 				disableElevation
-				className="bg-backgroundsecondary  h-12 w-full flex flex-nowrap  rounded-xl"
+				className="!bg-backgroundsecondary flex h-12 w-full flex-nowrap rounded-xl"
 			>
 				<Tooltip title="Forrige Dato" arrow TransitionComponent={Zoom}>
 					<Button
@@ -36,7 +52,7 @@ const ButtonBar = () => {
 							handleSetDateChange(new Date(time.getTime() - day));
 						}}
 					>
-						<MdChevronLeft className="h-6 w-6 text-text" />
+						<MdChevronLeft className="text-text h-6 w-6" />
 					</Button>
 				</Tooltip>
 				<Tooltip title="Dagens Dato" arrow TransitionComponent={Zoom}>
@@ -47,30 +63,20 @@ const ButtonBar = () => {
 							handleSetDateChange(new Date());
 						}}
 					>
-						<MdHome className="h-6 w-6 text-text" />
+						<MdHome className="text-text h-6 w-6" />
 					</Button>
 				</Tooltip>
-				<LocalizationProvider dateAdapter={DateFnsUtils}>
-					<DatePicker
-						renderInput={(params: any) => (
-							<Tooltip title="Velg Dato" arrow TransitionComponent={Zoom}>
-								<Button
-									variant="contained"
-									className="flex-1"
-									onClick={() => {
-										setSelectDateDialog(true);
-									}}
-								>
-									<CgCalendarToday className="h-6 w-6 text-text" />
-								</Button>
-							</Tooltip>
-						)}
-						open={selectDateDialog}
-						onClose={() => setSelectDateDialog(false)}
-						value={time}
-						onChange={handleSetDateChange}
-					/>
-				</LocalizationProvider>
+				<Tooltip title="Velg Dato" arrow TransitionComponent={Zoom}>
+					<Button
+						variant="contained"
+						className="flex-1"
+						onClick={() => {
+							setSelectDateDialog(true);
+						}}
+					>
+						<CgCalendarToday className="text-text h-6 w-6" />
+					</Button>
+				</Tooltip>
 				<Tooltip title="Neste Dato" arrow TransitionComponent={Zoom}>
 					<Button
 						variant="contained"
@@ -79,7 +85,7 @@ const ButtonBar = () => {
 							handleSetDateChange(new Date(time.getTime() + day));
 						}}
 					>
-						<MdChevronRight className="h-6 w-6 text-text" />
+						<MdChevronRight className="text-text h-6 w-6" />
 					</Button>
 				</Tooltip>
 			</ButtonGroup>

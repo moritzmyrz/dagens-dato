@@ -1,37 +1,38 @@
 {
-  "name": "dagens-dato",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@date-io/date-fns": "^2.13.1",
-    "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
-    "@mui/lab": "^5.0.0-alpha.67",
-    "@mui/material": "^5.4.0",
-    "axios": "^0.25.0",
-    "date-fns": "^2.28.0",
-    "next": "12.0.10",
-    "next-themes": "^0.0.15",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-icons": "^4.3.1",
-    "recoil": "^0.6.1",
-    "sass": "^1.49.7",
-    "wikijs": "^6.3.3"
-  },
-  "devDependencies": {
-    "@types/node": "17.0.14",
-    "@types/react": "17.0.39",
-    "autoprefixer": "^10.4.2",
-    "eslint": "8.8.0",
-    "eslint-config-next": "12.0.10",
-    "postcss": "^8.4.6",
-    "tailwindcss": "^3.0.18",
-    "typescript": "4.5.5"
-  }
+	"name": "dagens-dato",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@date-io/date-fns": "^1.3.13",
+		"@material-ui/core": "^4.12.3",
+		"@material-ui/lab": "^4.0.0-alpha.60",
+		"@material-ui/pickers": "^3.3.10",
+		"axios": "^0.25.0",
+		"date-fns": "^2.17.0",
+		"next": "12.0.10",
+		"next-themes": "^0.0.15",
+		"prettier": "^2.5.1",
+		"prettier-plugin-tailwindcss": "^0.1.7",
+		"react": "17.0.2",
+		"react-dom": "17.0.2",
+		"react-icons": "^4.3.1",
+		"recoil": "^0.6.1",
+		"sass": "^1.49.7",
+		"wikijs": "^6.3.3"
+	},
+	"devDependencies": {
+		"@types/node": "17.0.14",
+		"@types/react": "17.0.39",
+		"autoprefixer": "^10.4.2",
+		"eslint": "8.8.0",
+		"eslint-config-next": "12.0.10",
+		"postcss": "^8.4.6",
+		"tailwindcss": "^3.0.18",
+		"typescript": "4.5.5"
+	}
 }
