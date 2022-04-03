@@ -73,7 +73,7 @@ const Events: React.VFC = () => {
 				<Alert severity="warning">Oops, noe skjedde. Vi fikser feilen!</Alert>
 			</Snackbar>
 
-			<h1 className="text-center text-xl font-semibold">Hendelser</h1>
+			<h2 className="text-center text-xl font-semibold">Hendelser</h2>
 			{events.description == 'Loading' ? (
 				<Skeleton variant="text">
 					<p>
