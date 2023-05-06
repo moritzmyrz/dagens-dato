@@ -29,30 +29,32 @@ const TabTimeline: React.VFC<{
 	return (
 		<TabPanel value={tabValue}>
 			<Timeline className="text-text">
-				{eventArray.reverse().map((o: Root, i: number) => (
-					<TimelineItem key={i}>
-						<TimelineOppositeContent className="w-[66px] !flex-none">
-							<Tooltip
-								leaveTouchDelay={3000}
-								title={`Ca. ${
-									new Date().getFullYear() - parseInt(o.year)
-								} år siden`}
-								placement="top"
-								arrow
-								key={i}
-							>
-								<p className="text-text">{o.year}</p>
-							</Tooltip>
-						</TimelineOppositeContent>
-						<TimelineSeparator>
-							<TimelineDot />
-							<TimelineConnector />
-						</TimelineSeparator>
-						<TimelineContent>
-							<p>{o.description}</p>
-						</TimelineContent>
-					</TimelineItem>
-				))}
+				{eventArray
+					.sort((a: Root, b: Root) => parseInt(a.year) - parseInt(b.year))
+					.map((o: Root, i: number) => (
+						<TimelineItem key={i}>
+							<TimelineOppositeContent className="w-[66px] !flex-none">
+								<Tooltip
+									leaveTouchDelay={3000}
+									title={`Ca. ${
+										new Date().getFullYear() - parseInt(o.year)
+									} år siden`}
+									placement="top"
+									arrow
+									key={i}
+								>
+									<p className="text-text">{o.year}</p>
+								</Tooltip>
+							</TimelineOppositeContent>
+							<TimelineSeparator>
+								<TimelineDot />
+								<TimelineConnector />
+							</TimelineSeparator>
+							<TimelineContent>
+								<p>{o.description}</p>
+							</TimelineContent>
+						</TimelineItem>
+					))}
 			</Timeline>
 		</TabPanel>
 	);
