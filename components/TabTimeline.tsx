@@ -1,6 +1,5 @@
 import { Tooltip } from '@material-ui/core';
 import {
-	Skeleton,
 	TabPanel,
 	Timeline,
 	TimelineConnector,
@@ -10,91 +9,52 @@ import {
 	TimelineOppositeContent,
 	TimelineSeparator,
 } from '@material-ui/lab';
-import { useRecoilValue } from 'recoil';
-import { timeState } from '../state/timeState';
+
+export interface Root {
+	year: string;
+	description: string;
+	wikipedia: Wikipedum[];
+}
+
+export interface Wikipedum {
+	title: string;
+	wikipedia: string;
+}
 
 const TabTimeline: React.VFC<{
 	tabValue: string;
-	eventArray: string[];
-}> = ({ tabValue, eventArray }) => {
-	const time = useRecoilValue(timeState);
-
-	interface timelineItem {
-		date: string;
-		description: string;
-	}
-
-	const makeTimeline = (events: string[]): timelineItem[] => {
-		const timeline: timelineItem[] = [];
-		let i = 0;
-
-		for (let i = 0; i < events.length; i += 2) {
-			timeline.push({
-				date: events[i],
-				description: events[i + 1],
-			});
-		}
-
-		return timeline;
-	};
-
+	eventArray: any;
+	date: Date;
+}> = ({ tabValue, eventArray, date }) => {
 	return (
 		<TabPanel value={tabValue}>
 			<Timeline className="text-text">
-				{makeTimeline(eventArray).map((o: timelineItem, i: number) => (
+				{eventArray.reverse().map((o: Root, i: number) => (
 					<TimelineItem key={i}>
 						<TimelineOppositeContent className="w-[66px] !flex-none">
-							{o.date == 'Loading' ? (
-								<EventSkeleton>
-									<p>0000</p>
-								</EventSkeleton>
-							) : (
-								<Tooltip
-									leaveTouchDelay={3000}
-									title={`Ca. ${
-										time.getFullYear() - parseInt(o.date)
-									} år siden`}
-									placement="top"
-									arrow
-									key={i}
-								>
-									<p className="text-text">{o.date}</p>
-								</Tooltip>
-							)}
+							<Tooltip
+								leaveTouchDelay={3000}
+								title={`Ca. ${
+									new Date().getFullYear() - parseInt(o.year)
+								} år siden`}
+								placement="top"
+								arrow
+								key={i}
+							>
+								<p className="text-text">{o.year}</p>
+							</Tooltip>
 						</TimelineOppositeContent>
 						<TimelineSeparator>
 							<TimelineDot />
 							<TimelineConnector />
 						</TimelineSeparator>
 						<TimelineContent>
-							{o.date == 'Loading' ? (
-								<EventSkeleton>
-									<p>
-										Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-										Animi.
-									</p>
-								</EventSkeleton>
-							) : (
-								<p>{o.description}</p>
-							)}
+							<p>{o.description}</p>
 						</TimelineContent>
 					</TimelineItem>
 				))}
 			</Timeline>
 		</TabPanel>
-	);
-};
-
-const EventSkeleton: React.FC = ({ children }) => {
-	return (
-		<Skeleton
-			variant="text"
-			// width={`95%`}
-			// height={86}
-			animation="wave"
-		>
-			{children}
-		</Skeleton>
 	);
 };
 
