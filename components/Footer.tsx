@@ -1,14 +1,10 @@
 import { Link } from '@material-ui/core';
-import React from 'react';
 import { SiCreativecommons } from 'react-icons/si';
-import { useRecoilValue } from 'recoil';
 import { GetMonth } from '../functions/GetMonth';
-import { timeState } from '../state/timeState';
 
-const Footer: React.FC = () => {
-	const time = useRecoilValue(timeState);
-	const link = `https://no.wikipedia.org/wiki/${time.getDate()}._${GetMonth(
-		time.getMonth()
+const Footer = ({ date }: any) => {
+	const link = `https://no.wikipedia.org/wiki/${date.getDate()}._${GetMonth(
+		date.getMonth()
 	).toLowerCase()}`;
 
 	return (

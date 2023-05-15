@@ -1,24 +1,23 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { Button, ButtonGroup, Tooltip, Zoom } from '@material-ui/core';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { CgCalendarToday } from 'react-icons/cg';
 import { MdChevronLeft, MdChevronRight, MdHome } from 'react-icons/md';
-import { useRecoilState } from 'recoil';
-import { timeState } from '../state/timeState';
 
-const ButtonBar = () => {
-	const [time, setTime] = useRecoilState(timeState);
-
+const ButtonBar = ({ date }: any) => {
 	const [selectDateDialog, setSelectDateDialog] = useState(false);
+	const router = useRouter();
 
 	const day = 86400000;
 
 	const handleSetDateChange = (
-		date: Date | null,
+		newDate: Date | null,
 		keyboardInputValue?: string | undefined
 	) => {
-		setTime(date || new Date());
+		if (newDate == null) return;
+		router.push(`/${newDate.getMonth() + 1}/${newDate.getDate()}`);
 		setSelectDateDialog(false);
 	};
 
@@ -34,7 +33,7 @@ const ButtonBar = () => {
 					onClose={() => {
 						setSelectDateDialog(false);
 					}}
-					value={time}
+					value={date}
 					cancelLabel="Avbryt"
 					okLabel="OK"
 					onChange={handleSetDateChange}
@@ -49,7 +48,7 @@ const ButtonBar = () => {
 						variant="contained"
 						className="flex-1"
 						onClick={() => {
-							handleSetDateChange(new Date(time.getTime() - day));
+							handleSetDateChange(new Date(date.getTime() - day));
 						}}
 					>
 						<MdChevronLeft className="text-text h-6 w-6" />
@@ -82,7 +81,7 @@ const ButtonBar = () => {
 						variant="contained"
 						className="flex-1"
 						onClick={() => {
-							handleSetDateChange(new Date(time.getTime() + day));
+							handleSetDateChange(new Date(date.getTime() + day));
 						}}
 					>
 						<MdChevronRight className="text-text h-6 w-6" />
