@@ -11,7 +11,7 @@ import TabTimeline from "./TabTimeline";
 const Events: React.VFC = () => {
   const time = useRecoilValue(timeState);
 
-  const api = `/api/${new Date(time.getTime() + 60 * 60 * 1000).toUTCString()}`;
+  const api = `/api/${new Date(time).toUTCString()}`;
 
   const defaultEvents = {
     historisk: ["Loading"],
