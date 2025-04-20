@@ -95,7 +95,7 @@ export default function handler(
           k++;
         }
 
-        // Add special event for November 18, 2004
+        // Add special event for November 18
         // Check month more robustly - November is 10 in JS Date (0-indexed)
         const isNovember18 = date.getDate() === 18 && date.getMonth() === 10;
 
@@ -106,9 +106,19 @@ export default function handler(
 
         if (isNovember18) {
           console.log("Adding Moritz to births list");
-          // Add Moritz Andrè Myrseth's birth to the births array
-          // @ts-ignore
-          data.births.unshift("2004 – Moritz André Myrseth, norsk person");
+
+          // Check if Moritz is already in the list
+          const hasMoritzEntry = data.births.some(
+            (entry: string) =>
+              entry.includes("Moritz") && entry.includes("Myrseth")
+          );
+
+          if (!hasMoritzEntry) {
+            // Add Moritz Andrè Myrseth's birth to the births array
+            // Using the proper format with dash separator
+            // @ts-ignore
+            data.births.unshift("2004 – Moritz André Myrseth, norsk person");
+          }
         }
 
         console.log("Final birth entries:", data.births);
