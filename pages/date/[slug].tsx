@@ -159,12 +159,6 @@ const DatePage: NextPage<DatePageProps> = ({ day, month, year }) => {
             ${time.getFullYear()}`}
           </h1>
 
-          {isSpecialDate && (
-            <div className="text-center mt-2 p-2 bg-blue-100 dark:bg-blue-900 rounded-md">
-              <p className="font-bold">Moritz Andrè Myrseth's Fødselsdag 🎂</p>
-            </div>
-          )}
-
           <Tooltip
             title={weekDescription(startDateOfWeek, endDateOfWeek)}
             arrow
