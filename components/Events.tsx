@@ -11,10 +11,7 @@ import TabTimeline from "./TabTimeline";
 const Events: React.VFC = () => {
   const time = useRecoilValue(timeState);
 
-  // FIX: Remove the 1-hour offset that was causing wrong date descriptions
-  // Using exact date and ensuring the timezone doesn't shift by using ISO string format
-  const currentDate = new Date(time);
-  const api = `/api/${currentDate.toISOString()}`;
+  const api = `/api/${new Date(time.getTime() + 60 * 60 * 1000).toUTCString()}`;
 
   const defaultEvents = {
     historisk: ["Loading"],
@@ -45,10 +42,6 @@ const Events: React.VFC = () => {
 
   // Ensure all entries have consistent format with year-dash-description
   const normalizeEntries = (entries: string[]): string[] => {
-    if (!entries || entries.length === 0 || entries[0] === "Loading") {
-      return entries;
-    }
-
     return entries.map((entry) => {
       // Skip empty entries or "Loading"
       if (!entry || entry === "Loading") return entry;
@@ -59,69 +52,23 @@ const Events: React.VFC = () => {
       );
 
       if (hasSeparator) {
-        // If it has a separator but year is not at the beginning, try to extract it
-        const separators = [" – ", " - ", " — "];
-        let splitIndex = -1;
-        let separator = "";
-
-        for (const sep of separators) {
-          const idx = entry.indexOf(sep);
-          if (idx > -1) {
-            splitIndex = idx;
-            separator = sep;
-            break;
-          }
-        }
-
-        if (splitIndex > -1) {
-          const beforeSep = entry.substring(0, splitIndex).trim();
-          const afterSep = entry
-            .substring(splitIndex + separator.length)
-            .trim();
-
-          // Check if the part before separator is a year
-          if (/^\d{4}$/.test(beforeSep)) {
-            return entry; // Correct format: "1234 – Description"
-          } else {
-            // If not a year, check if it contains a year
-            const yearMatch = beforeSep.match(/.*?(\d{4}).*?$/);
-            if (yearMatch) {
-              return `${yearMatch[1]} – ${afterSep}`;
-            }
-          }
-        }
-        return entry; // Keep original if we can't improve it
+        return entry; // Entry is already in the correct format
       }
 
-      // No separator - check if entry starts with a year (4 digits)
-      const yearAtStart = entry.match(/^(\d{4})/);
-      if (yearAtStart) {
+      // Check if entry starts with a year (4 digits)
+      const yearMatch = entry.match(/^(\d{4})/);
+      if (yearMatch) {
         // Add a separator after the year
         return entry.replace(/^(\d{4})/, "$1 – ");
       }
 
-      // Try to extract year from anywhere in the string
-      const yearAnywhere = entry.match(/.*?(\d{4}).*?$/);
-      if (yearAnywhere) {
-        return `${yearAnywhere[1]} – ${entry
-          .replace(yearAnywhere[1], "")
-          .trim()}`;
-      }
-
-      // If entry has no year, use current year as fallback (better than ????)
-      return `${time.getFullYear()} – ${entry}`;
+      // If entry has no year, try to extract year from context or use a placeholder
+      return `???? – ${entry}`;
     });
   };
 
   const retry = () => {
     setEvents(defaultEvents);
-    console.log(
-      "Requesting API for date:",
-      time.toISOString(),
-      "API URL:",
-      api
-    );
-
     axios
       .get(api, {
         headers: {
@@ -147,16 +94,10 @@ const Events: React.VFC = () => {
           }
         }
 
-        // Debug current entries before normalization
-        console.log("Before normalization births:", data.births);
-
         // Normalize all the entries to ensure consistent formatting
         data.historisk = normalizeEntries(data.historisk);
         data.births = normalizeEntries(data.births);
         data.deaths = normalizeEntries(data.deaths);
-
-        // Debug normalized entries
-        console.log("After normalization births:", data.births);
 
         setEvents(data);
         setRetrying(false);
@@ -174,25 +115,6 @@ const Events: React.VFC = () => {
 
     retry();
   }, [time]);
-
-  // Verify that the description matches the current date
-  useEffect(() => {
-    if (events.description && events.description !== "Loading") {
-      const currentDay = time.getDate();
-      const expectedDayPrefix = `${currentDay}. `;
-
-      // If description doesn't start with current day, retry the API call
-      if (!events.description.startsWith(expectedDayPrefix)) {
-        console.log(
-          `Description mismatch: Expected "${expectedDayPrefix}", got "${events.description.substring(
-            0,
-            10
-          )}..."`
-        );
-        retry();
-      }
-    }
-  }, [events.description, time]);
 
   return (
     <div className="bg-backgroundsecondary text-text w-[97%] rounded-xl px-4 py-2 sm:w-[500px]">
