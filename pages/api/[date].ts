@@ -4,36 +4,77 @@ import wiki from "wikijs";
 import { splitMulti } from "../../functions/api/SplitMulti";
 import { GetMonth } from "../../functions/GetMonth";
 
-type Data = {
-  name: string;
+// Updated type to match the actual data structure
+type DateData = {
+  historisk: string[];
+  births: string[];
+  deaths: string[];
+  description: string;
 };
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<DateData | any>
 ) {
-  // @ts-ignore
-  const date = new Date(req.query.date);
-  console.log("API requested date:", date, "Query params:", req.query.date);
-  console.log("Date components:", {
+  // Parse the date parameter more safely to avoid timezone issues
+  const dateParam = req.query.date as string;
+  let date: Date;
+
+  try {
+    // If ISO string is provided, use it directly
+    if (dateParam.includes("T")) {
+      date = new Date(dateParam);
+    } else {
+      // Otherwise treat as UTC string
+      date = new Date(dateParam);
+    }
+
+    // Ensure we're using the local date representation for Wikipedia lookups
+    // This ensures we get the right day regardless of timezone
+    const localDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      12 // Use noon to avoid any timezone boundary issues
+    );
+
+    date = localDate;
+  } catch (error) {
+    console.error("Date parsing error:", error);
+    date = new Date(); // Fallback to current date
+  }
+
+  console.log("API requested date:", date);
+  console.log("Date components for API request:", {
     day: date.getDate(),
     month: date.getMonth(),
     year: date.getFullYear(),
+    monthName: GetMonth(date.getMonth()).toLowerCase(),
   });
 
   if (req.method == "GET") {
+    // Construct the Wikipedia page name using the date's day and month
+    const wikipediaPage = `${date.getDate()}. ${GetMonth(
+      date.getMonth()
+    ).toLowerCase()}`;
+    console.log("Fetching Wikipedia page:", wikipediaPage);
+
     wiki({ apiUrl: "https://no.wikipedia.org/w/api.php" })
-      .page(`${date.getDate()}. ${GetMonth(date.getMonth()).toLowerCase()}`)
+      .page(wikipediaPage)
       .then(async (page) => {
         const content = await page.content();
         const rawContent = await page.rawContent();
         const summary = await page.summary();
 
         let description = summary.replace(/\r?\n|\r/g, " ");
+        console.log(
+          "Description retrieved:",
+          description.substring(0, 50) + "..."
+        );
 
         const splitter = [" - ", " – ", " — ", /\d+(\s–\s)/gm];
 
-        const data = {
+        const data: DateData = {
           historisk: [],
           births: [],
           deaths: [],
@@ -51,7 +92,7 @@ export default function handler(
             )
             .content.split("\n");
         } else {
-          console.log("Error");
+          console.log("Error: No historisk.items found");
         }
         historisk = historisk.content;
         historisk = historisk.split("\n");
@@ -121,14 +162,15 @@ export default function handler(
           }
         }
 
-        console.log("Final birth entries:", data.births);
-
-        // @ts-ignore
+        console.log("Final births count:", data.births.length);
+        // Set status and send response
         res.status(200).json(data);
       })
       .catch((err) => {
+        console.error("Wiki API error:", err);
         res.status(400).send(err);
       });
+  } else {
+    res.status(405).end(); // Method not allowed
   }
-  res.status(405);
 }
