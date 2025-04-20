@@ -23,6 +23,16 @@ const TabTimeline: React.VFC<{
     date: string;
     description: string;
   }
+  // Extract year from text using different methods
+  const extractYear = (text: string): string => {
+    if (!text) return "";
+
+    // Check for 4-digit year pattern
+    const yearMatch = text.match(/\b(1[0-9]{3}|20[0-2][0-9])\b/);
+    if (yearMatch) return yearMatch[1];
+
+    return "";
+  };
 
   const makeTimeline = (events: string[]): timelineItem[] => {
     const timeline: timelineItem[] = [];
@@ -62,25 +72,81 @@ const TabTimeline: React.VFC<{
           const date = splitEntry[0].trim();
           const description = splitEntry.slice(1).join(" – ").trim();
 
-          timeline.push({
-            date,
-            description,
-          });
+          // If date part is a 4-digit year, use it directly
+          if (/^\d{4}$/.test(date)) {
+            timeline.push({
+              date,
+              description,
+            });
+          } else {
+            // Try to extract year from description if date part isn't a year
+            const extractedYear = extractYear(description) || extractYear(date);
+
+            if (extractedYear) {
+              timeline.push({
+                date: extractedYear,
+                description,
+              });
+            } else {
+              // We couldn't find a year, use current year for recent events as fallback
+              const thisYear = time.getFullYear().toString();
+              timeline.push({
+                date: thisYear,
+                description,
+              });
+            }
+          }
         } else {
-          // No separator found, treat the entire entry as description with unknown date
-          timeline.push({
-            date: "????",
-            description: entry,
-          });
+          // No separator found
+          // Try to extract year from entry directly
+          const year = extractYear(entry);
+
+          if (year) {
+            const descWithoutYear = entry.replace(year, "").trim();
+            timeline.push({
+              date: year,
+              description: descWithoutYear || entry,
+            });
+          } else {
+            // Last resort - use current year as a reasonable guess
+            timeline.push({
+              date: time.getFullYear().toString(),
+              description: entry,
+            });
+          }
         }
       }
     } else {
       // Handle paired entries (date and description in separate array elements)
       for (let i = 0; i < events.length; i += 2) {
-        timeline.push({
-          date: events[i] || "????",
-          description: events[i + 1] || "Ingen beskrivelse",
-        });
+        if (i + 1 >= events.length) break; // Ensure we have both date and description
+
+        const date = events[i];
+        const description = events[i + 1];
+
+        if (/^\d{4}$/.test(date)) {
+          // Date is already in correct format
+          timeline.push({
+            date,
+            description,
+          });
+        } else {
+          // Try to extract year from description
+          const year = extractYear(description) || extractYear(date);
+
+          if (year) {
+            timeline.push({
+              date: year,
+              description,
+            });
+          } else {
+            // Last resort - use current year
+            timeline.push({
+              date: time.getFullYear().toString(),
+              description,
+            });
+          }
+        }
       }
     }
 

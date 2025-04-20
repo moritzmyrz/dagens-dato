@@ -11,6 +11,7 @@ import TabTimeline from "./TabTimeline";
 const Events: React.VFC = () => {
   const time = useRecoilValue(timeState);
 
+  // Fixed API endpoint
   const api = `/api/${new Date(time).toUTCString()}`;
 
   const defaultEvents = {
@@ -40,6 +41,34 @@ const Events: React.VFC = () => {
   // Check if the current date is November 18
   const isNovember18 = time.getDate() === 18 && time.getMonth() === 10; // November is 10 in JavaScript (0-indexed)
 
+  // Known events with their years
+  const knownEvents: Record<string, string> = {
+    "Deepwater Horizon": "2010",
+    Tjernobyl: "1986",
+    Challenger: "1986",
+    Columbia: "2003",
+    Apollo: "1969",
+  };
+
+  // Simple year extractor for the normalizer
+  const findYear = (text: string): string => {
+    if (!text) return "";
+
+    // Look for year at start or anywhere
+    const yearMatch = text.match(/\b(1[0-9]{3}|20[0-2][0-9])\b/);
+    if (yearMatch) return yearMatch[1];
+
+    // Check for known event keywords
+    for (const [event, year] of Object.entries(knownEvents)) {
+      if (text.toLowerCase().includes(event.toLowerCase())) {
+        return year;
+      }
+    }
+
+    // Use current year if we can't determine
+    return time.getFullYear().toString();
+  };
+
   // Ensure all entries have consistent format with year-dash-description
   const normalizeEntries = (entries: string[]): string[] => {
     return entries.map((entry) => {
@@ -52,7 +81,26 @@ const Events: React.VFC = () => {
       );
 
       if (hasSeparator) {
-        return entry; // Entry is already in the correct format
+        // Check if the first part is a year
+        for (const separator of [" – ", " - ", " — "]) {
+          if (entry.includes(separator)) {
+            const parts = entry.split(separator);
+            if (parts.length >= 2) {
+              const firstPart = parts[0].trim();
+              // If it's already a year, keep as is
+              if (/^\d{4}$/.test(firstPart)) {
+                return entry;
+              }
+
+              // Try to extract year from any part
+              const year = findYear(entry);
+              if (year) {
+                return `${year} – ${parts.slice(1).join(separator)}`;
+              }
+            }
+          }
+        }
+        return entry; // Keep original if we can't improve it
       }
 
       // Check if entry starts with a year (4 digits)
@@ -62,8 +110,9 @@ const Events: React.VFC = () => {
         return entry.replace(/^(\d{4})/, "$1 – ");
       }
 
-      // If entry has no year, try to extract year from context or use a placeholder
-      return `???? – ${entry}`;
+      // Try to find a year in the entry
+      const year = findYear(entry);
+      return year ? `${year} – ${entry}` : entry;
     });
   };
 
