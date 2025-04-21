@@ -14,6 +14,7 @@ import { GetDay } from "../functions/GetDay";
 import { GetMonth } from "../functions/GetMonth";
 import { GetWeekNum } from "../functions/GetWeekNum";
 import { weekDescription } from "../functions/WeekDesc";
+import { fetchEventData, EventsData } from "../lib/fetchEvents";
 
 // Define props
 interface HomeProps {
@@ -26,10 +27,17 @@ interface HomeProps {
     weekNum: number;
     weekDesc: string;
   };
+  events: EventsData | null;
+  currentDateISO: string;
 }
 
 // Update component signature to accept props
-const Home: NextPage<HomeProps> = ({ currentDateSlug, displayDate }) => {
+const Home: NextPage<HomeProps> = ({
+  currentDateSlug,
+  displayDate,
+  events,
+  currentDateISO,
+}) => {
   const { setTheme, theme } = useTheme();
 
   // Removed Recoil state
@@ -50,9 +58,8 @@ const Home: NextPage<HomeProps> = ({ currentDateSlug, displayDate }) => {
   */
 
   // Use props for ButtonBar - needs the current Date object
-  // We can reconstruct it here or pass it from getStaticProps
-  // Let's reconstruct for simplicity here, ButtonBar only needs Date obj
-  const today = new Date(); // ButtonBar needs a Date object
+  // Reconstruct Date object from ISO string
+  const currentDate = new Date(currentDateISO);
 
   return (
     <div className="mx-auto flex h-screen flex-col">
@@ -101,8 +108,8 @@ const Home: NextPage<HomeProps> = ({ currentDateSlug, displayDate }) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <div className="flex flex-col items-center justify-center space-y-4 py-4">
-        {/* Pass today's Date object to ButtonBar */}
-        <ButtonBar currentDate={today} />
+        {/* Pass currentDate Date object to ButtonBar */}
+        <ButtonBar currentDate={currentDate} />
         {/* Use currentDateSlug prop for Link href */}
         <Link href={`/date/${currentDateSlug}`} passHref>
           <div className="bg-backgroundsecondary w-[97%] rounded-xl px-4 py-2 sm:w-[500px] cursor-pointer hover:opacity-90 transition-opacity">
@@ -129,10 +136,8 @@ const Home: NextPage<HomeProps> = ({ currentDateSlug, displayDate }) => {
             </Tooltip>
           </div>
         </Link>
-        {/* Events component - needs currentDate prop. Pass today's date? */}
-        {/* OR fetch events data in index.tsx getStaticProps if needed here? */}
-        {/* Assuming Events is not essential for the *index* page functionality */}
-        {/* <Events currentDate={today} events={null} /> */}
+        {/* Render Events component with today's data */}
+        <Events currentDate={currentDate} events={events} />
         <Footer />
         <IconButton
           color="inherit"
@@ -148,11 +153,15 @@ const Home: NextPage<HomeProps> = ({ currentDateSlug, displayDate }) => {
 export default Home;
 
 // Add getStaticProps
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const today = new Date();
-  const day = today.getDate();
-  const month = today.getMonth(); // 0-indexed
-  const year = today.getFullYear();
+  // Use UTC date parts consistent with fetchEventData for fetching
+  const todayUTC = new Date(
+    Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())
+  );
+  const day = today.getDate(); // Keep local day for display
+  const month = today.getMonth(); // Keep local month for display (0-indexed)
+  const year = today.getFullYear(); // Keep local year for display
 
   const currentDateSlug = `${day}-${month + 1}-${year}`;
 
@@ -160,7 +169,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const endDateOfWeek = endOfWeek(today, { weekStartsOn: 1 });
 
   const displayDate = {
-    dayName: GetDay(today),
+    dayName: GetDay(today), // Use local date for display helpers
     dayOfMonth: day,
     monthName: GetMonth(month),
     year: year,
@@ -168,10 +177,26 @@ export const getStaticProps: GetStaticProps = async () => {
     weekDesc: weekDescription(startDateOfWeek, endDateOfWeek),
   };
 
+  // Fetch events for today
+  let eventsData: EventsData | null = null;
+  try {
+    console.log(`Fetching events for today: ${todayUTC.toDateString()}`);
+    // Use the UTC date object for fetching
+    eventsData = await fetchEventData(todayUTC);
+    if (!eventsData) {
+      console.warn(`No event data returned for today (${currentDateSlug})`);
+    }
+  } catch (error) {
+    console.error(`getStaticProps error fetching events for today:`, error);
+    eventsData = null; // Ensure events is null on error
+  }
+
   return {
     props: {
       currentDateSlug,
       displayDate,
+      events: eventsData, // Pass fetched events data
+      currentDateISO: today.toISOString(), // Pass ISO string for client-side Date reconstruction
     },
     revalidate: 43200, // 12 hours
   };
