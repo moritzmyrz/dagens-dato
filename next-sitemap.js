@@ -6,8 +6,8 @@ function generateDateUrls() {
   const now = new Date();
 
   // Generate URLs for dates from 5 years ago to 1 year in the future
-  const startYear = now.getFullYear() - 2;
-  const endYear = now.getFullYear() + 1;
+  const startYear = now.getFullYear();
+  const endYear = now.getFullYear();
 
   for (let year = startYear; year <= endYear; year++) {
     for (let month = 0; month < 12; month++) {

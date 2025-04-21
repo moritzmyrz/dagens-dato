@@ -140,12 +140,7 @@ export async function fetchEventData(date: Date): Promise<EventsData | null> {
             break;
           }
         }
-        rawData.births.splice(
-          insertIndex,
-          0,
-          "2004",
-          "Moritz André Myrseth, norsk programmerer"
-        );
+        rawData.births.splice(insertIndex, 0, "2004", "Moritz André Myrseth");
       }
     }
 

@@ -50,28 +50,17 @@ const DatePage: NextPage<DatePageProps> = ({
     time.getMonth()
   )} ${time.getFullYear()}. Historiske hendelser, fødsler og dødsfall.`;
 
-  const isSpecialDate = day === 18 && month === 11 && year === 2004;
-  const specialDateDescription = isSpecialDate
-    ? `${pageDescription} Fødselsdag til Moritz Andrè Myrseth.`
-    : pageDescription;
-
   return (
     <div className="mx-auto flex h-screen flex-col">
       <NextSeo
-        title={
-          isSpecialDate
-            ? `Moritz Andrè Myrseth's fødselsdag, ${pageTitle}`
-            : pageTitle
-        }
-        description={specialDateDescription}
+        title={pageTitle}
+        description={pageDescription}
         canonical={`https://www.dagensdato.no/date/${day}-${month}-${year}`}
         openGraph={{
           type: "website",
           url: `https://www.dagensdato.no/date/${day}-${month}-${year}`,
-          title: isSpecialDate
-            ? `Moritz Andrè Myrseth's fødselsdag, ${pageTitle}`
-            : pageTitle,
-          description: specialDateDescription,
+          title: pageTitle,
+          description: pageDescription,
           site_name: "Dagens Dato",
           images: [
             {
@@ -104,27 +93,6 @@ const DatePage: NextPage<DatePageProps> = ({
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-        {isSpecialDate && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "BirthEvent",
-                name: "Moritz Andrè Myrseth's Birthday",
-                birthDate: "2004-11-18",
-                birthPlace: {
-                  "@type": "Place",
-                  name: "Norway",
-                },
-                principal: {
-                  "@type": "Person",
-                  name: "Moritz Andrè Myrseth",
-                },
-              }),
-            }}
-          />
-        )}
       </Head>
       <div className="flex flex-col items-center justify-center space-y-4 py-4">
         <ButtonBar currentDate={time} />
