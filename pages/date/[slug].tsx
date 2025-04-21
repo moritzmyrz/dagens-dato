@@ -4,10 +4,8 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useTheme } from "next-themes";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { useRecoilState } from "recoil";
 import ButtonBar from "../../components/ButtonBar";
 import Events from "../../components/Events";
 import Footer from "../../components/Footer";
@@ -15,52 +13,28 @@ import { GetDay } from "../../functions/GetDay";
 import { GetMonth } from "../../functions/GetMonth";
 import { GetWeekNum } from "../../functions/GetWeekNum";
 import { weekDescription } from "../../functions/WeekDesc";
-import { timeState } from "../../state/timeState";
+import axios from "axios";
+import { EventData, EventsData } from "../../types";
 
+// Restore DatePageProps definition
 interface DatePageProps {
   day: number;
-  month: number;
+  month: number; // Month is 1-based
   year: number;
+  currentDate: string;
+  events: EventsData | null;
 }
 
-const DatePage: NextPage<DatePageProps> = ({ day, month, year }) => {
+const DatePage: NextPage<DatePageProps> = ({
+  day,
+  month,
+  year,
+  currentDate,
+  events,
+}) => {
   const { setTheme, theme } = useTheme();
-  const router = useRouter();
-  const [time, setTime] = useRecoilState(timeState);
-  // Use ref to track if URL was updated from time state
-  const urlUpdatedFromTime = useRef(false);
-  // Flag to prevent changing time when we're already on the correct date
-  const initialSetComplete = useRef(false);
 
-  // Set time state based on URL params when component mounts
-  useEffect(() => {
-    if (router.isReady && !initialSetComplete.current) {
-      const dateFromUrl = new Date(year, month - 1, day);
-      setTime(dateFromUrl);
-      initialSetComplete.current = true;
-    }
-  }, [day, month, year, setTime, router.isReady]);
-
-  // Only update URL when time state changes from user action
-  useEffect(() => {
-    if (!router.isReady || !initialSetComplete.current) return;
-
-    const currentDay = time.getDate();
-    const currentMonth = time.getMonth() + 1;
-    const currentYear = time.getFullYear();
-
-    // Don't trigger URL updates during initial load or if URL already matches the time
-    if (currentDay === day && currentMonth === month && currentYear === year) {
-      return;
-    }
-
-    // If date was changed by user (through UI), update the URL
-    const dateSlug = `${currentDay}-${currentMonth}-${currentYear}`;
-    router.push(`/date/${dateSlug}`, undefined, {
-      shallow: true,
-      scroll: false,
-    });
-  }, [time, router, day, month, year, router.isReady]);
+  const time = new Date(year, month - 1, day);
 
   const startDateOfWeek = startOfWeek(time, { weekStartsOn: 1 });
   const endDateOfWeek = endOfWeek(time, { weekStartsOn: 1 });
@@ -72,8 +46,7 @@ const DatePage: NextPage<DatePageProps> = ({ day, month, year }) => {
     time.getMonth()
   )} ${time.getFullYear()}. Historiske hendelser, fødsler og dødsfall.`;
 
-  // Special case for November 18, 2004
-  const isSpecialDate = day === 18 && month === 11;
+  const isSpecialDate = day === 18 && month === 11 && year === 2004;
   const specialDateDescription = isSpecialDate
     ? `${pageDescription} Fødselsdag til Moritz Andrè Myrseth.`
     : pageDescription;
@@ -150,7 +123,7 @@ const DatePage: NextPage<DatePageProps> = ({ day, month, year }) => {
         )}
       </Head>
       <div className="flex flex-col items-center justify-center space-y-4 py-4">
-        <ButtonBar />
+        <ButtonBar currentDate={time} />
         <div className="bg-backgroundsecondary w-[97%] rounded-xl px-4 py-2 sm:w-[500px]">
           <h2 className="text-center text-xl font-bold">{GetDay(time)} </h2>
 
@@ -169,7 +142,7 @@ const DatePage: NextPage<DatePageProps> = ({ day, month, year }) => {
             </h2>
           </Tooltip>
         </div>
-        <Events />
+        <Events currentDate={time} events={events} />
         <Footer />
         <IconButton
           color="inherit"
@@ -186,37 +159,107 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug as string;
   const [day, month, year] = slug.split("-").map(Number);
 
+  if (isNaN(day) || isNaN(month) || isNaN(year)) {
+    return { notFound: true };
+  }
+
+  const dateFromSlug = new Date(Date.UTC(year, month - 1, day));
+  if (isNaN(dateFromSlug.getTime())) {
+    return { notFound: true };
+  }
+
+  const pairYearAndDescription = (entries: string[]): EventData[] => {
+    const pairedEntries: EventData[] = [];
+    if (
+      !entries ||
+      entries.length === 0 ||
+      (entries.length === 1 && entries[0] === "Loading")
+    ) {
+      return [];
+    }
+
+    for (let i = 0; i < entries.length; i += 2) {
+      const yearStr = entries[i];
+      const description = entries[i + 1];
+
+      if (yearStr && description) {
+        pairedEntries.push({
+          year: yearStr.trim(),
+          description: description.trim(),
+        });
+      } else if (yearStr) {
+        console.warn(`Lone entry found: ${yearStr}`);
+      }
+    }
+    return pairedEntries;
+  };
+
+  let eventsData: EventsData | null = null;
+  try {
+    const apiUrl = `${
+      process.env.NEXT_PUBLIC_BASE_URL || ""
+    }/api/${dateFromSlug.toUTCString()}`;
+    console.log(`Fetching events from: ${apiUrl}`);
+    const response = await axios.get(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      timeout: 10000,
+    });
+    const data = response.data;
+
+    const isNovember18 = day === 18 && month === 11;
+    if (isNovember18 && year === 2004) {
+      const hasMoritzEntry = data.births.some(
+        (entry: string) => entry.includes("Moritz") && entry.includes("Myrseth")
+      );
+      if (!hasMoritzEntry) {
+        data.births.unshift("Moritz André Myrseth, norsk person");
+        data.births.unshift("2004");
+      }
+    }
+
+    eventsData = {
+      historisk: pairYearAndDescription(data.historisk),
+      births: pairYearAndDescription(data.births),
+      deaths: pairYearAndDescription(data.deaths),
+      description: data.description || "Ingen beskrivelse tilgjengelig.",
+    };
+  } catch (error) {
+    console.error(`Error fetching events for ${slug}:`, error);
+    eventsData = null;
+  }
+
   return {
     props: {
       day,
       month,
       year,
+      currentDate: dateFromSlug.toISOString(),
+      events: eventsData,
     },
+    revalidate: 43200,
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Generate paths for today, tomorrow and yesterday for initial build
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
+  const paths = [];
+  const currentYear = new Date().getFullYear();
+  const startDate = new Date(currentYear, 0, 1);
+  const endDate = new Date(currentYear, 11, 31);
 
-  const formatDateSlug = (date: Date) => {
+  const formatDateSlug = (date: Date): string => {
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
   };
 
-  // Add November 18, 2004 to the static paths to ensure it's pre-rendered
-  const specialDate = new Date(2004, 10, 18); // Month is 0-indexed (10 = November)
+  let currentDate = startDate;
+  while (currentDate <= endDate) {
+    paths.push({ params: { slug: formatDateSlug(currentDate) } });
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
 
   return {
-    paths: [
-      { params: { slug: formatDateSlug(today) } },
-      { params: { slug: formatDateSlug(tomorrow) } },
-      { params: { slug: formatDateSlug(yesterday) } },
-      { params: { slug: formatDateSlug(specialDate) } },
-    ],
+    paths: paths,
     fallback: "blocking",
   };
 };

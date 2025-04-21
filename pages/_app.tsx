@@ -35,7 +35,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <NextThemeProvider defaultTheme="system">
         <ThemeProvider theme={theme}>
           <DefaultSeo
-            titleTemplate="%s | Dagens Dato"
             defaultTitle="Dagens Dato - Dagens dato, ukenummer og historiske hendelser"
             description="Hvilken uke er det? Hva skjedde på dagens dato? Her finner du ut ting om dagens dato, med ett sammendrag over hva som har hendt på dagens dato."
             additionalMetaTags={[

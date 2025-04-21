@@ -14,13 +14,6 @@ export default function handler(
 ) {
   // @ts-ignore
   const date = new Date(req.query.date);
-  console.log("API requested date:", date, "Query params:", req.query.date);
-  console.log("Date components:", {
-    day: date.getDate(),
-    month: date.getMonth(),
-    year: date.getFullYear(),
-  });
-
   if (req.method == "GET") {
     wiki({ apiUrl: "https://no.wikipedia.org/w/api.php" })
       .page(`${date.getDate()}. ${GetMonth(date.getMonth()).toLowerCase()}`)
@@ -99,14 +92,7 @@ export default function handler(
         // Check month more robustly - November is 10 in JS Date (0-indexed)
         const isNovember18 = date.getDate() === 18 && date.getMonth() === 10;
 
-        console.log("Date check for Moritz:", {
-          isNovember18,
-          date: date.toISOString(),
-        });
-
         if (isNovember18) {
-          console.log("Adding Moritz to births list");
-
           // Check if Moritz is already in the list
           const hasMoritzEntry = data.births.some(
             (entry: string) =>
@@ -120,8 +106,6 @@ export default function handler(
             data.births.unshift("2004 – Moritz André Myrseth, norsk person");
           }
         }
-
-        console.log("Final birth entries:", data.births);
 
         // @ts-ignore
         res.status(200).json(data);
