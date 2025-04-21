@@ -102,7 +102,7 @@ export async function fetchEventData(date: Date): Promise<EventsData | null> {
       return items.filter((item) => item.trim() !== ""); // Filter out empty lines
     };
 
-    let historiskRaw = extractSection("Hendelser"); // Or "Historie"? Verify title
+    let historiskRaw = extractSection("Historie"); // Changed to Historie
     let birthsRaw = extractSection("Fødsler");
     let deathsRaw = extractSection("Dødsfall");
 
