@@ -13,8 +13,8 @@ import { GetDay } from "../../functions/GetDay";
 import { GetMonth } from "../../functions/GetMonth";
 import { GetWeekNum } from "../../functions/GetWeekNum";
 import { weekDescription } from "../../functions/WeekDesc";
-import axios from "axios";
-import { EventData, EventsData } from "../../types";
+import { fetchEventData, EventsData, EventData } from "../../lib/fetchEvents";
+import { ParsedUrlQuery } from "querystring";
 
 // Restore DatePageProps definition
 interface DatePageProps {
@@ -23,6 +23,10 @@ interface DatePageProps {
   year: number;
   currentDate: string;
   events: EventsData | null;
+}
+
+interface DatePageParams extends ParsedUrlQuery {
+  slug: string;
 }
 
 const DatePage: NextPage<DatePageProps> = ({
@@ -155,79 +159,44 @@ const DatePage: NextPage<DatePageProps> = ({
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = params?.slug as string;
+export const getStaticProps: GetStaticProps<
+  DatePageProps,
+  DatePageParams
+> = async (context) => {
+  const params = context.params!;
+  const slug = params.slug;
   const [day, month, year] = slug.split("-").map(Number);
 
   if (isNaN(day) || isNaN(month) || isNaN(year)) {
+    console.error(`Invalid date parts parsed from slug: ${slug}`);
     return { notFound: true };
   }
 
+  // Use UTC to be consistent with fetchEventData and API routes
   const dateFromSlug = new Date(Date.UTC(year, month - 1, day));
   if (isNaN(dateFromSlug.getTime())) {
+    console.error(`Invalid date created from slug: ${slug}`);
     return { notFound: true };
   }
 
-  const pairYearAndDescription = (entries: string[]): EventData[] => {
-    const pairedEntries: EventData[] = [];
-    if (
-      !entries ||
-      entries.length === 0 ||
-      (entries.length === 1 && entries[0] === "Loading")
-    ) {
-      return [];
-    }
-
-    for (let i = 0; i < entries.length; i += 2) {
-      const yearStr = entries[i];
-      const description = entries[i + 1];
-
-      if (yearStr && description) {
-        pairedEntries.push({
-          year: yearStr.trim(),
-          description: description.trim(),
-        });
-      } else if (yearStr) {
-        console.warn(`Lone entry found: ${yearStr}`);
-      }
-    }
-    return pairedEntries;
-  };
-
+  console.log(`Fetching events for date: ${dateFromSlug.toDateString()}`);
   let eventsData: EventsData | null = null;
   try {
-    const apiUrl = `${
-      process.env.NEXT_PUBLIC_BASE_URL || ""
-    }/api/${dateFromSlug.toUTCString()}`;
-    console.log(`Fetching events from: ${apiUrl}`);
-    const response = await axios.get(apiUrl, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      timeout: 10000,
-    });
-    const data = response.data;
+    // Call the function directly, passing the Date object
+    eventsData = await fetchEventData(dateFromSlug);
 
-    const isNovember18 = day === 18 && month === 11;
-    if (isNovember18 && year === 2004) {
-      const hasMoritzEntry = data.births.some(
-        (entry: string) => entry.includes("Moritz") && entry.includes("Myrseth")
-      );
-      if (!hasMoritzEntry) {
-        data.births.unshift("Moritz André Myrseth, norsk person");
-        data.births.unshift("2004");
-      }
+    if (!eventsData) {
+      console.warn(`No event data returned for ${slug}`);
+      // Decide if this should be a 404 or just show the page with no events
+      // Returning null for events allows the page to render without event data.
+      // If you want a 404 when data isn't found, return { notFound: true };
     }
-
-    eventsData = {
-      historisk: pairYearAndDescription(data.historisk),
-      births: pairYearAndDescription(data.births),
-      deaths: pairYearAndDescription(data.deaths),
-      description: data.description || "Ingen beskrivelse tilgjengelig.",
-    };
   } catch (error) {
-    console.error(`Error fetching events for ${slug}:`, error);
-    eventsData = null;
+    // fetchEventData already logs errors, but we can log here too if needed
+    console.error(`getStaticProps error fetching events for ${slug}:`, error);
+    // Optionally return notFound: true if fetch errors should result in a 404
+    // return { notFound: true };
+    eventsData = null; // Ensure events is null on error
   }
 
   return {
@@ -235,10 +204,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       day,
       month,
       year,
-      currentDate: dateFromSlug.toISOString(),
-      events: eventsData,
+      currentDate: dateFromSlug.toISOString(), // Pass ISO string for serialization
+      events: eventsData, // Pass the fetched data directly
     },
-    revalidate: 43200,
+    revalidate: 43200, // Revalidate every 12 hours
   };
 };
 
